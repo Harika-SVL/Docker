@@ -7,29 +7,30 @@
 ![alt text](shots/1.PNG)
 
 * _**Problems**_ :
-    1. Different front-ends (ios, Andriod)
-        + Accesibility
-        + Cross platform
+    
+  1. Different front-ends (ios, Andriod)
+    + Accesibility
+    + Cross platform
 
-    ![alt text](shots/2.PNG)
+  ![alt text](shots/2.PNG)
 
-    2. Deployment of new features: typically are having more downtimes
-        + Zero down time deployments
-        + Faster deployments
-    3. Contoso wants to run this application on any cloud or on-premises
-        + Portability
-    4. De Composing application into smaller services according to the business needs
+  2. Deployment of new features: typically are having more downtimes
+    + Zero down time deployments
+    + Faster deployments
+  3. Contoso wants to run this application on any cloud or on-premises
+    + Portability
+  4. De Composing application into smaller services according to the business needs
 
-    ![alt text](shots/3.PNG)
+  ![alt text](shots/3.PNG)
 
-    5. Updating any microservice can be done independently
-    6. Re using microservices is much easier
-        + Scaling for microservice is much easier and cheaper compared to Scaling monolith
+  5. Updating any microservice can be done independently
+  6. Re using microservices is much easier
+    + Scaling for microservice is much easier and cheaper compared to Scaling monolith
 
 * _**Solution**_ :
 
-    1. Container Technology ( _**Docker**_ )
-    2. Container Orchestration ( _**Kubernetes**_ )
+  1. Container Technology ( _**Docker**_ )
+  2. Container Orchestration ( _**Kubernetes**_ )
 
 ### Application Deployments
 
