@@ -8,13 +8,13 @@
 
 * _**Problems**_ :
     
- 1. Different front-ends (ios, Andriod)
+ 1. Different front-ends ( ios, Andriod )
     + Accesibility
     + Cross platform
 
   ![alt text](shots/2.PNG)
 
- 2. Deployment of new features: typically are having more downtimes
+ 2. Deployment of new features : typically are having more downtimes
     + Zero down time deployments
     + Faster deployments
  3. Contoso wants to run this application on any cloud or on-premises
