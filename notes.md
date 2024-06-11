@@ -83,10 +83,10 @@
 
 #### Expectations from you in terms of Docker
 
-* Containerize any application run by your organization.
-* Manage Data, Security and Networks for containerized applications.
+* Containerize any application run by your organization
+* Manage Data, Security and Networks for containerized applications
 * To acheive the above expectations, we need to use
-    * docker and understand how it runs and creates containers
+    * Docker and understand how it runs and creates containers
     * play with docker aroud networks, data and security
     * apply them to our application
 
