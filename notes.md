@@ -74,9 +74,9 @@
 ### What is Docker ?
 
 * _**Docker (Dock worker)**_ is used to create containers which is standard way of packaging any application
-* Application can be any of the below but have a standard way of packaging i.e docker image.
-    * developed in any technology
-    * developed on any server
+* Application can be any of the below but have a standard way of packaging i.e _**Docker image**_.
+    + developed in any technology
+    + developed on any server
 * Packaging in docker image format helps us to run our application
 
 ![alt text](shots/7.PNG)
