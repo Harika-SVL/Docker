@@ -32,15 +32,13 @@
  1. Container Technology ( _**Docker**_ )
  2. Container Orchestration ( _**Kubernetes**_ )
 
-### Application Deployments
+### Application Deployments - Terms
 
-* _**Terms**_
-
- 1. _**Capex (Capital Expenditure)**_: Investment made by organisation for purchasing of servers 
- 2. _**Opex (Operational Expenditure)**_ : Organisation does to maintain servers
+ 1. _**Capex (Capital Expenditure)**_ : Investment made by organisation for purchasing of servers 
+ 2. _**Opex (Operational Expenditure)**_ : Investment made by organisation to maintain servers
  3. _**Physical Server**_ : Racks have servers where we can directly install an application
- 4. _**Hypervisor**_ : Software use to create virtual machines. There are two types: ONE, which can be installed directly on servers and create virtual machines. TWO, where we install over the OS and then create virtual machines.
- 5. _**Virtual Machine**_ : Isolated space to virtual create harware and run applications individually
+ 4. _**Hypervisor**_ : Software used to create virtual machines. They are of two types : `ONE`, which can be installed directly on servers and create virtual machines. `TWO`, where we install over the OS and then create virtual machines.
+ 5. _**Virtual Machine**_ : Isolated space to virtually create hardware and run applications individually
  6. _**Return on Investment (ROI)**_ : How much returns or results achieved in order to create hardware and running applications efficiently
 
 ### Evolution
@@ -55,7 +53,7 @@
 2. _**Generation 2**_ : 
     
     * Hypervisors create virtual machines and applications installed in virtual machines
-    * Hypervisors perform hardware virtualizationa and provide
+    * Hypervisors perform hardware virtualization and provide
       + virtual cpu
       + virtual ram
       + virtual disk
@@ -67,7 +65,7 @@
 
 3. _**Generation 3**_ - _**Containers**_ : 
 
-    * These are isolated areas which look like vms but the container is an isolated area which has virtualized os
+    * These are isolated areas which look like vms but the container is an isolated area which has virtualized OS
     * Applications running in Containers will not feel the difference
     * We can run more applications on a single box
 
