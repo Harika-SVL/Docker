@@ -160,4 +160,240 @@ sudo apt install nginx -y
 * grpc
 * rkt containers
 
-        
+ * Applications bring revenue to enterprises and to run applications we need servers, os etc
+
+#### Let's create a linux server and install tomcat in it
+* Create a linux server (AWS/Azure/GCP) 
+
+![alt text](shots/11.PNG)
+
+* We have experimented in the linux vm
+    * network interface gives network connectivity
+    * cpu, ram and disk are available
+    * to install softwares we have used package manager apt
+* Commands
+```
+sudo apt update
+sudo apt install net-tools openjdk-11-jdk tomcat9 -y
+# to check network
+ifconfig
+# to check java
+java -version
+# to check tomcat
+sudo systemctl status tomcat9
+```
+* We were able to exactly the similar operations inside container as well.
+
+#### Let me take a application
+
+* This is spring pet clinic application
+* Let's try to run this application on linux
+
+    [ Refer Here : https://github.com/spring-projects/spring-petclinic ]
+
+* To build the code
+```
+sudo apt update
+sudo apt install openjdk-17-jdk maven -y
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+# java package
+mvn package
+java -jar target/spring-petclinic-3.0.0-SNAPSHOT.jar
+```
+* Docker way of working
+  * We create a docker image (docker packaging format)
+    * We need to create Dockerfile
+    * push the image to registry (docker hub)
+    * create the container using the image anywhere
+* Dockerfile
+```
+FROM amazoncorretto:17-alpine-jdk
+LABEL author=khaja
+ADD target/spring-petclinic-3.0.0-SNAPSHOT.jar /springpetclinic.jar
+EXPOSE 8080
+CMD ["java", "-jar", "/springpetclinic.jar"]
+```
+* Create docker image
+```
+docker image build -t spc:1.0 .
+```
+* to create container
+```
+docker container run -d -P spc:1.0
+docker container run -d -P spc:1.0
+docker container run -d -P spc:1.0
+```
+#### Next Steps
+
+* How is container able to give ip address/storage/process/cpu/ram etc
+* Container architectures (3 versions)
+* understanding image and container
+* docker container life cycle
+* containerization
+* networking , storage aspects
+
+#### How Isolations are created or How Containers Work
+
+* Each container is getting a
+    * new process tree
+    * disk mounts
+    * network (nic)
+    * cpu/memory
+    * users
+* Docker Internals
+
+    [ Refre here : https://directdevops.blog/2019/01/31/docker-internals/ ]
+
+![alt text](shots/12.PNG)
+
+### Docker Architecture
+
+_**Generation 1:**_
+
+* This was first gen, Where docker daemon used lxc (a linux kernel feature) to create containers
+
+![alt text](shots/13.PNG)
+
+_**Generation2:**_
+
+* Since docker was relying on lxc which was kernel feature, updates to kernel frequently used to break containers created by docker
+* So docker has created its own component called libcontainer (libc) to create containers
+* Docker wanted containers to be multi os and lxc was definetly not the way forward
+
+![alt text](shots/14.PNG)
+
+* Adoption of docker was drastically increased as it was stable
+
+_**Generation 3:**_
+
+* In this generation, docker engine was revamped from monolith to multi component architecture and the images and containers were according to OCI (open container initiative) image spec and runtime spec.
+* In the latest architecture
+* docker daemon exposes api’s to listen requests from docker client.
+* Passes the requests to containerd. This manages the lifecylcle of container
+* containerd forks a runc process which creates container. once the container is created the parent of the container will be docker shim
+
+![alt text](shots/15.PNG)
+
+#### Creating our first docker container
+
+ _**docker container creation:**_
+
+* To create container we need some image in this case lets take `hello-world`
+* The command `docker container run hello-world` executed
+* What happens
+    * docker client will forward the request to docker daemon
+    * docker daemon will check if the image exists locally. if yes creates the container by using image
+    * if the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default docker registry is docker hub.
+    * Downloading image into local repo from registy is called as pull.
+    * Once the image is pulled the container is created.
+
+![alt text](shots/16.PNG)
+
+* Registry is collection of docker images hosted for reuse.
+* Docker hub 
+
+    [ Refer Here : https://hub.docker.com/search?q= ]
+
+#### Playing with containers
+
+* Create a new linux vm and install docker in it
+
+17th picture
+
+18th picture
+
+* Open all ports
+    * AWS
+
+    19th picture
+
+    20th picture
+
+#### Check docker images in the host
+
+21st picture
+
+22nd picture
+
+23rd picture
+
+#### Pull the images from docker hub
+
+* image naming convention
+```
+[username]/[repository]:[<tag>]
+shaikkhajaibrahim/myspc:1.0.1
+username => shaikkhajaibrahi
+repository => what image => myspc
+tag => version => 1.0.1
+```
+
+* default tag is latest 
+```
+nginx
+nginx:latest
+```
+
+* Official images don't have username
+```
+nginx
+ubuntu
+alpine
+shaikkhajaibrahim/myspc
+```
+
+* Lets pull the image nginx with tag 1.23
+```
+docker image pull nginx:1.23
+docker image ls
+```
+24th picture
+
+* Let's pull the jenkins image with latest version
+
+25th picture
+
+* Let's find the alpine and pull the image
+
+26th picture
+
+#### Remove images from local
+
+* Every image will have unique image id and image name
+* We can delete individually `docker image rm alpine:3.17`
+* if I have to delete all the images `docker image rm $(docker image ls -q)`
+
+27th picture
+
+28th picture
+
+#### Create a container with nginx
+
+* To create and start the container we use run command
+
+29th picture
+
+* _**note:**_ i will be using -d for some time and we will discuss importance of this in next session
+* every container gets an id and a name. name can be passed while creating container, if not docker will give random name
+
+30th picture
+
+* Remove all the running containers `docker container rm -f $(docker container ls -q )`
+
+31st picture
+
+32nd picture
+
+* Remove specific container
+
+33rd picture
+
+* Remove all containers `docker container rm -f $(docker container ls -a -q )`
+
+34th picture
+
+* _**Exercise:**_ Start and stop containers
+
+
+
