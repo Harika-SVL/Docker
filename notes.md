@@ -36,14 +36,14 @@
 
 * _**Terms**_
 
-    * Capex: Captial * Expenditure
-    Opex: Operational Expenditure
-    * Physical Server
-    * Hypervisor
-    * Virtual Machine
-    * Return on Investment (ROI) 
+ 1. _**Capex (Capital Expenditure)**_: Investment made by organisation over purchasing of servers 
+ 2. _**Opex**_ : Operational Expenditure
+ 3. _**Physical Server**_ :
+ 4. _**Hypervisor**_ :
+ 5. _**Virtual Machine**_ :
+ 6. _**Return on Investment (ROI)**_ :
 
-#### Evolution
+### Evolution
 
 * _**Generation 1**_: Directly run on Physical Servers
     * Directly run on physical servers
