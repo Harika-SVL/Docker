@@ -36,38 +36,44 @@
 
 * _**Terms**_
 
- 1. _**Capex (Capital Expenditure)**_: Investment made by organisation over purchasing of servers 
- 2. _**Opex**_ : Operational Expenditure
- 3. _**Physical Server**_ :
- 4. _**Hypervisor**_ :
- 5. _**Virtual Machine**_ :
- 6. _**Return on Investment (ROI)**_ :
+ 1. _**Capex (Capital Expenditure)**_: Investment made by organisation for purchasing of servers 
+ 2. _**Opex (Operational Expenditure)**_ : Organisation does to maintain servers
+ 3. _**Physical Server**_ : Racks have servers where we can directly install an application
+ 4. _**Hypervisor**_ : Software use to create virtual machines. There are two types: ONE, which can be installed directly on servers and create virtual machines. TWO, where we install over the OS and then create virtual machines.
+ 5. _**Virtual Machine**_ : Isolated space to virtual create harware and run applications individually
+ 6. _**Return on Investment (ROI)**_ : How much returns or results achieved in order to create hardware and running applications efficiently
 
 ### Evolution
 
-* _**Generation 1**_: Directly run on Physical Servers
+1. _**Generation 1**_ : 
+
     * Directly run on physical servers
     * If your application is not utilizing hardware completely, ROI is very long
     
     ![alt text](shots/4.PNG)
 
-* _**Generation 2**_: Hypervisors create virtual machines and applications installed in virtual machines
-* Hypervisors perform hardware virtualizationa and provide
-    * virtual cpu
-    * virtual ram
-    * virtual disk
-    * virtual network
-* In the isolated area created by hypervisor, we can install os and necessary softwares
-* Application can be installed and used from here
-* Better ROI
+2. _**Generation 2**_ : 
+    
+    * Hypervisors create virtual machines and applications installed in virtual machines
+    * Hypervisors perform hardware virtualizationa and provide
+      + virtual cpu
+      + virtual ram
+      + virtual disk
+      + virtual network
+    * In the isolated area created by hypervisor, we can install OS and necessary softwares
+    * Application can be installed and used from here and also have better ROI
 
-* _**Generation 3**_: _**Containers**_: These are isolated areas which look like vms but the container is an isolated area which has virtualized os.
-* Applications running in Containers will not feel the difference
-* We can run more applications on a single box
+    ![alt text](shots/5.PNG)
 
-![alt text](shots/5.PNG)
+3. _**Generation 3**_ - _**Containers**_ : 
 
-### What is Docker?
+    * These are isolated areas which look like vms but the container is an isolated area which has virtualized os
+    * Applications running in Containers will not feel the difference
+    * We can run more applications on a single box
+
+    ![alt text](shots/6.PNG)
+
+### What is Docker ?
 
 * _**Docker (dock worker)**_ is used to create containers which is standard way of packaging any application
 * Application can be any of the below but have a standard way of packaging i.e docker image.
@@ -75,7 +81,7 @@
     * developed on any server
 * Packaging in docker image format helps us to run our application
 
-![alt text](shots/6.PNG)
+![alt text](shots/7.PNG)
 
 #### Expectations from you in terms of Docker
 
