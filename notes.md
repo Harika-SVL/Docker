@@ -32,7 +32,7 @@
  1. Container Technology ( _**Docker**_ )
  2. Container Orchestration ( _**Kubernetes**_ )
 
-### Application Deployments - Terms
+#### Application Deployments - Terms
 
  1. _**Capex (Capital Expenditure)**_ : Investment made by organisation for purchasing of servers 
  2. _**Opex (Operational Expenditure)**_ : Investment made by organisation to maintain servers
@@ -77,35 +77,37 @@
 * Application can be any of the below but have a standard way of packaging i.e _**Docker image**_.
     + developed in any technology
     + developed on any server
-* Packaging in docker image format helps us to run our application
+* Packaging in docker image format helps us to run our application everywhere possible
 
 ![alt text](shots/7.PNG)
 
-#### Expectations from you in terms of docker
+#### Expectations in terms of docker from you
 
 * Containerize any application run by your organization
 * Manage Data, Security and Networks for containerized applications
-* To acheive the above expectations, we need to use
-    * Docker and understand how it runs and creates containers
-    * play with docker aroud networks, data and security
-    * apply them to our application
+* To acheive the above, we need to use :
+    + Docker and understand how it runs and creates containers
+    + play with docker aroud networks, data and security
+    + apply them to our application
 
-### Run apache server (VM)
+#### Run apache server (VM)
 
 * Create a VM (Ubuntu) and ssh into it
 ```
 sudo apt update
 sudo apt install apache2 -y
 ```
-* Now navigate to `http://<public-ip>`
+* Now navigate to `http://<public-ipaddress>`
 
-7th picture
+![alt text](shots/8.PNG)
 
-* Now let's try to also install nginx
+* Now let's try to also install nginx and navigate to `http://<public-ipaddress>`
 ```
 sudo apt update
 sudo apt install nginx -y
 ```
+![alt text](shots/9.PNG)
+
 ### Docker Installation
 
 * When we install docker we get two major components
