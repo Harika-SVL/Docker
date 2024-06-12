@@ -90,7 +90,7 @@
     + play with docker aroud networks, data and security
     + apply them to our application
 
-#### Run apache server (VM)
+#### Run apache server and nginx (VM)
 
 * Create a VM (Ubuntu) and ssh into it
 ```
@@ -110,13 +110,14 @@ sudo apt install nginx -y
 
 ### Docker Installation
 
-* When we install docker we get two major components
-    * _**Docker client**_:
+* When we install docker we get two major components :
+
+ 1.  _**Docker client**_ :
         * A command line to interact with docker engine
 
     ![alt text](shots/8.PNG)
 
-    * _**Docker engine**_: This is collection of multiple components
+ 2. _**Docker engine**_ : This is collection of multiple components
         * Orchestration
         * Docker daemon
         * Runtime
