@@ -114,7 +114,7 @@ sudo apt install nginx -y
 
  1.  _**Docker client**_ : A command line to interact with docker engine
 
-    ![alt text](shots/8.PNG)
+![alt text](shots/8.PNG)
 
  2. _**Docker engine**_ : This is collection of multiple components
         * Orchestration
@@ -157,7 +157,7 @@ sudo apt install nginx -y
 
     [ Refer Here : https://labs.play-with-docker.com/ ]
 
-#### Terms To be aware of
+#### Terms to be aware of
 
 * containerd
 * runc
