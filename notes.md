@@ -81,7 +81,7 @@
 
 ![alt text](shots/7.PNG)
 
-#### Expectations from you in terms of Docker
+#### Expectations from you in terms of docker
 
 * Containerize any application run by your organization
 * Manage Data, Security and Networks for containerized applications
@@ -92,7 +92,7 @@
 
 ### Run apache server (VM)
 
-* Create a vm (ubuntu) and ssh into it
+* Create a VM (Ubuntu) and ssh into it
 ```
 sudo apt update
 sudo apt install apache2 -y
