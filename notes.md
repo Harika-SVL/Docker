@@ -112,8 +112,7 @@ sudo apt install nginx -y
 
 * When we install docker we get two major components :
 
- 1.  _**Docker client**_ :
-        * A command line to interact with docker engine
+ 1.  _**Docker client**_ : A command line to interact with docker engine
 
     ![alt text](shots/8.PNG)
 
