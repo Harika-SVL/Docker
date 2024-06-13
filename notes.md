@@ -192,34 +192,40 @@ docker info
 * grpc
 * rkt containers
 
- * Applications bring revenue to enterprises and to run applications we need servers, os etc
+ * Applications bring revenue to enterprises and to run applications we need servers, OS, etc
 
 #### Let's create a linux server and install tomcat in it
-* Create a linux server (AWS/Azure/GCP) 
+* Create a linux server ( AWS / Azure / GCP ) 
 
-![alt text](shots/11.PNG)
+![alt text](shots/14.PNG)
 
-* We have experimented in the linux vm
+* We have experimented in the _**Linux VM ( Ubuntu )**_
     * network interface gives network connectivity
     * cpu, ram and disk are available
-    * to install softwares we have used package manager apt
+    * to install softwares we have used package manager `apt`
 * Commands
 ```
+htop
 sudo apt update
-sudo apt install net-tools openjdk-11-jdk tomcat9 -y
-# to check network
-ifconfig
-# to check java
+sudo apt install net-tools -y
+if config
+sudo apt install openjdk-11-jdk -y
 java -version
-# to check tomcat
+sudo apt install tomcat9 -y
 sudo systemctl status tomcat9
 ```
-* We were able to exactly the similar operations inside container as well.
+* _**NOTE**_ :
+
++ to check network => `ifconfig`
++ to check java => `java -version`
++ to check tomcat => `sudo systemctl status tomcat9`
+
+* We were able to exactly perform similar operations inside the container as well
 
 #### Let me take a application
 
 * This is spring pet clinic application
-* Let's try to run this application on linux
+* Let's try to run this application on linux ( ubuntu )
 
     [ Refer Here : https://github.com/spring-projects/spring-petclinic ]
 
@@ -228,17 +234,20 @@ sudo systemctl status tomcat9
 sudo apt update
 sudo apt install openjdk-17-jdk maven -y
 git clone https://github.com/spring-projects/spring-petclinic.git
-cd spring-petclinic
+cd spring-petclinic/
 # java package
 mvn package
 java -jar target/spring-petclinic-3.0.0-SNAPSHOT.jar
 ```
 * Docker way of working
-  * We create a docker image (docker packaging format)
-    * We need to create Dockerfile
-    * push the image to registry (docker hub)
-    * create the container using the image anywhere
-* Dockerfile
+  * We create a _**Docker image (docker packaging format)**_
+    * We need to create _**Dockerfile**_
+    * Push the image to _**registry (docker hub)**_
+    * Create the _**container**_ using the image anywhere
+
+#### 7th april video = 53.00 min ####
+
+* _**Dockerfile**_ for spring pet clinic
 ```
 FROM amazoncorretto:17-alpine-jdk
 LABEL author=khaja
