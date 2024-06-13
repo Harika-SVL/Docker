@@ -123,29 +123,53 @@ sudo apt install nginx -y
 * to play with docker commands
     * manual --help
     * cheatsheet
-* Install
-    * _**Linux VM**_:
-        * Docker can be installed by following instructions over here 
-        
-        [ Refer Here : https://docs.docker.com/engine/install/ ]
 
-        * script based installation 
+#### Installations
+
+ 1. _**Linux VM**_:
+
+    * Create a VM with standard configuration
+    ```
+    sudo cat /etc/group
+    sudo cat /etc/passwd
+    ```
+* Docker can be installed in many ways :  
+
+ +  Using following instructions
         
-        [ Refer Here : https://get.docker.com/ ]
-       ```
-       curl -fsSL https://get.docker.com -o get-docker.sh
-       sh get-docker.sh
-       ```
-       9th picture
-       * Docker allows communication to the unix socket for the users who belong to docker group. so lets add current user to docker group `sudo usermod -aG docker <username>`. logout and login
+    [ Refer Here : https://docs.docker.com/engine/install/ ]
+
+ + Script based installation 
+        
+    [ Refer Here : https://get.docker.com/ ]
+
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+docker info
+```
+![alt text](shots/11.PNG)
+
+* Docker allows communication to the unix socket for the users who belong to docker group `sudo cat /etc/group`
+* So let's add current user `ubuntu (whoami)` to docker group `sudo usermod -aG <groupname> <username>` _**sudo usermod -aG docker ubuntu**_
+* Then exit and relogin `docker info`
+
+![alt text](shots/12.PNG)
+
 * Now execute `docker container run hello-world`
 
-10 th picture
+![alt text](shots/13.PNG)
 
-#### Windows 10/11 (Non Home editions)
+2. _**Windows 10/11 (Non Home editions)**_
 
-* [ Refer Here : https://docs.docker.com/desktop/install/windows-install/ ]
-* I will not recommend installing docker on windows
+
+    [ Refer Here : https://docs.docker.com/desktop/install/windows-install/ ]
+
+* _**Note**_ : Installing docker on windows is not recommended
+
+3. _**Mac**_
+
+    [ Refer here : https://docs.docker.com/desktop/install/mac-install/ ]
 
 #### Docker Playground
 
@@ -153,7 +177,7 @@ sudo apt install nginx -y
 
     [ Refer Here : https://hub.docker.com/ ]
 
-* This playground gives a linux machine with docker installed for 4 hours for free
+* This playground gives a linux machine with docker installed ( 4 hours for free ) 
 
     [ Refer Here : https://labs.play-with-docker.com/ ]
 
