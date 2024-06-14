@@ -245,8 +245,6 @@ java -jar target/spring-petclinic-3.0.0-SNAPSHOT.jar
     * Push the image to _**registry (docker hub)**_
     * Create the _**container**_ using the image anywhere
 
-#### 7th april video = 53.00 min ####
-
 * _**Dockerfile**_ for spring pet clinic
 ```
 FROM amazoncorretto:17-alpine-jdk
