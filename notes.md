@@ -239,40 +239,49 @@ cd spring-petclinic/
 mvn package
 java -jar target/spring-petclinic-3.0.0-SNAPSHOT.jar
 ```
+![alt text](shots/15.PNG)
+
 * Docker way of working
   * We create a _**Docker image (docker packaging format)**_
     * We need to create _**Dockerfile**_
-    * Push the image to _**registry (docker hub)**_
+    * Push the image to _**registry (docker hub, public registry)**_
     * Create the _**container**_ using the image anywhere
 
+* Install docker on the VM using script and add to docker group
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo usermod -aG docker ubuntu
+exit
+relogin
+cd spring-petclinic/
+```
 * _**Dockerfile**_ for spring pet clinic
 ```
 FROM amazoncorretto:17-alpine-jdk
-LABEL author=khaja
+LABEL author=Harikag
 ADD target/spring-petclinic-3.0.0-SNAPSHOT.jar /springpetclinic.jar
 EXPOSE 8080
 CMD ["java", "-jar", "/springpetclinic.jar"]
 ```
-* Create docker image
+* Add the Dockerfile and create docker image
 ```
+vi Dockerfile
 docker image build -t spc:1.0 .
 ```
-* to create container
+* to create container at the original port `-P`
 ```
 docker container run -d -P spc:1.0
-docker container run -d -P spc:1.0
-docker container run -d -P spc:1.0
 ```
-#### Next Steps
+* to create container at the different ports `-p` ( remember to allow open the required ports )
+```
+docker container run -d -p 8081:8080 spc:1.0
+docker container run -d -p 8082:8080 spc:1.0
+docker container run -d -p 8083:8080 spc:1.0
+```
+* expose over the browser with the desired port
 
-* How is container able to give ip address/storage/process/cpu/ram etc
-* Container architectures (3 versions)
-* understanding image and container
-* docker container life cycle
-* containerization
-* networking , storage aspects
-
-#### How Isolations are created or How Containers Work
+#### How Isolations are created ? ( OR ) How Containers Work ?
 
 * Each container is getting a
     * new process tree
@@ -284,7 +293,7 @@ docker container run -d -P spc:1.0
 
     [ Refre here : https://directdevops.blog/2019/01/31/docker-internals/ ]
 
-![alt text](shots/12.PNG)
+
 
 ### Docker Architecture
 
@@ -292,7 +301,7 @@ _**Generation 1:**_
 
 * This was first gen, Where docker daemon used lxc (a linux kernel feature) to create containers
 
-![alt text](shots/13.PNG)
+
 
 _**Generation2:**_
 
@@ -300,7 +309,7 @@ _**Generation2:**_
 * So docker has created its own component called libcontainer (libc) to create containers
 * Docker wanted containers to be multi os and lxc was definetly not the way forward
 
-![alt text](shots/14.PNG)
+
 
 * Adoption of docker was drastically increased as it was stable
 
@@ -312,7 +321,7 @@ _**Generation 3:**_
 * Passes the requests to containerd. This manages the lifecylcle of container
 * containerd forks a runc process which creates container. once the container is created the parent of the container will be docker shim
 
-![alt text](shots/15.PNG)
+
 
 #### Creating our first docker container
 
@@ -327,7 +336,7 @@ _**Generation 3:**_
     * Downloading image into local repo from registy is called as pull.
     * Once the image is pulled the container is created.
 
-![alt text](shots/16.PNG)
+
 
 * Registry is collection of docker images hosted for reuse.
 * Docker hub 
@@ -338,24 +347,24 @@ _**Generation 3:**_
 
 * Create a new linux vm and install docker in it
 
-17th picture
 
-18th picture
+
+
 
 * Open all ports
     * AWS
 
-    19th picture
+ 
 
-    20th picture
+
 
 #### Check docker images in the host
 
-21st picture
 
-22nd picture
 
-23rd picture
+
+
+
 
 #### Pull the images from docker hub
 
@@ -387,15 +396,15 @@ shaikkhajaibrahim/myspc
 docker image pull nginx:1.23
 docker image ls
 ```
-24th picture
+
 
 * Let's pull the jenkins image with latest version
 
-25th picture
+
 
 * Let's find the alpine and pull the image
 
-26th picture
+
 
 #### Remove images from local
 
@@ -403,34 +412,34 @@ docker image ls
 * We can delete individually `docker image rm alpine:3.17`
 * if I have to delete all the images `docker image rm $(docker image ls -q)`
 
-27th picture
 
-28th picture
+
+
 
 #### Create a container with nginx
 
 * To create and start the container we use run command
 
-29th picture
+
 
 * _**note:**_ i will be using -d for some time and we will discuss importance of this in next session
 * every container gets an id and a name. name can be passed while creating container, if not docker will give random name
 
-30th picture
+
 
 * Remove all the running containers `docker container rm -f $(docker container ls -q )`
 
-31st picture
 
-32nd picture
+
+
 
 * Remove specific container
 
-33rd picture
+
 
 * Remove all containers `docker container rm -f $(docker container ls -a -q )`
 
-34th picture
+
 
 * _**Exercise:**_ Start and stop containers
 
