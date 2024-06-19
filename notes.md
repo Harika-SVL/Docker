@@ -293,7 +293,7 @@ docker container run -d -p 8083:8080 spc:1.0
 
     [ Refre here : https://directdevops.blog/2019/01/31/docker-internals/ ]
 
-
+    
 
 ### Docker Architecture
 
