@@ -293,7 +293,7 @@ docker container run -d -p 8083:8080 spc:1.0
 
     [ Refre here : https://directdevops.blog/2019/01/31/docker-internals/ ]
 
-    
+
 
 ### Docker Architecture
 
@@ -444,4 +444,183 @@ docker image ls
 * _**Exercise:**_ Start and stop containers
 
 
+### Docker container lifecycle
+
+* Docker lifecycle states :
+ 1. Created
+ 2. Running
+ 3. Paused
+ 4. Stopped
+ 5. Deleted
+
+
+
+#### Accessing the applications inside docker containers
+
+* From now the machine where we have installed docker will referred as `host` and the docker container will be referred as `container`
+* We have access to host network & as of now containers are created in private container network, so to access applications inside containers we use `port-forwording`
+
+
+
+* _**Command**_ : `docker container run -d -p <host-port>:<container-port> <image>`
+* Create a _**nginx container**_ and expose on _**port 30000**_ we use , `docker container run -d -p 30000:80 --name nginx1 nginx`
+
+
+
+* Create a _**jenkins container**_ & _**expose 8080 port on 30001**_ of host we use , `docker container run -d -p 30001:8080 --name jenkins1 jenkins/jenkins`
+
+
+
+* To assing any random free port on host to container port `docker container run -d -P image`
+* Let's create three nginx containers
+
+
+
+
+#### Exercise
+
+1. Install docker on a linux vm
+2. Run 1 httpd containers (apache container) which runs on 80 port
+3. try accessing any application
+4. stop the containers
+5. try accessing
+6. start the continers and access this should work
+7. pause the containers, access the application
+8. unpause the containers, access the application
+9. delete the container
+
+#### Containerizing spring petclinic
+
+* I have spring petclinic version 2.4.2 which requires java 11 and runs on port 8080
+* To start the application `java -jar spring-petclinic-2.4.2.jar`
+* What is required:
+    + jdk 11
+    + jar file
+* How to access the application
+    + http over port 8080
+* Let's start the amazoncorretoo based container with port 8080 exposed 
+
+    [ Refer Here : https://hub.docker.com/_/amazoncorretto ]
+
+```
+docker container run -it -p 30000:8080 amazoncorretto:11 /bin/bash
+```
+
+
+* now lets download the spring petclinic 
+
+[ Refer Here : ]
+
+
+
+*  Run the application `java -jar spring-petclinic-2.4.2.jar`
+
+
+
+*  Now to create a image from a running container, lets login into linux vm, so let's use `docker container commit`
+
+
+
+* remove all the containers and run the myspc image based container
+```
+docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-petclinic-2.4.2.jar
+```
+* This is not a useful approach as we are creating images manually
+* Docker has a better way i.e. _**Dockerfile**_
+
+### Dockerfile based Image building
+
+* Workflow
+
+
+
+* Dockerfile is a text file with instructions Refer Here
+* The basic syntax `INSTRUCTION arguments`
+* In Docker we have concept of base image i.e. to run your application using some existing image
+* We can use a base image called as scratch which has nothing in it
+* In majority of the cases we take what is required to run our application as base image
+
+#### Basic instructions to write a Dockerfile
+
+* _**FROM**_ : use tag all the time (donot use latest)
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#from ]
+
+* _**RUN**_ : The commands to be executed while building the image to install/configure your appliation 
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#run ]
+
+* _**CMD**_ : This command will be executed while starting the container
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#cmd ]
+
+* _**EXPOSE**_ : This adds ports to be exposed while starting the container 
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#expose ]
+
+#### Spring petclinic Dockerfile
+
+* Let's do two ways
+ 1. use any image with java11 already as base image `amazoncorretto:11`
+ 2. use any image with slim os as base image `alpine:3`
+
+* Dockerfile- based on amazoncorreto:11 
+```
+FROM amazoncorretto:11
+RUN curl https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar -o spring-petclinic-2.4.2.jar
+EXPOSE 8080
+CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
+```
+* Let
+s build the image based on amazoncorreto
+
+
+
+
+* Now let's create a container `docker container run -d -P --name spc1 myspc:corretto11`
+
+
+
+* Approach 2: Start from some os
+```
+FROM alpine:3
+RUN apk add openjdk11
+RUN wget https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar
+EXPOSE 8080
+CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
+```
+* Build the image
+
+
+
+
+* Let's run the container `docker container run -d -P --name myspc2 myspc:alpine`
+
+
+
+### Immutable Infrastructure
+
+* Any infra changes will not be done on infra directly rather we create some infra as code option and change the configuration
+
+### Additional instructions for Dockerfile
+
+ 1. _**LABEL**_ : This instruction adds metadata
+
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#label ]
+
+    + Refer Here for the changes done for spc image
+    + Let's inspect the image `docker image inspect spc:1.0.0.1` and observe the labels section
+
+
+
+ 2. _**ADD , COPY**_ : 
+
+* ADD instruction can add the files into docker image from local file system as well as from http(s)
+* ADD instruction can have sources
+    + local file system
+    + git repo
+    + url
+* COPY supports only local file system
+* Let's use ADD to download springpetclinic into docker image from url `ADD https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar /spring-petclinic-2.4.2.jar`
 
