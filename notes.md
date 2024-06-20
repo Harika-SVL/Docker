@@ -315,9 +315,9 @@ _**Generation2:**_
 
 _**Generation 3:**_
 
-* In this generation, docker engine was revamped from monolith to multi component architecture and the images and containers were according to OCI (open container initiative) image spec and runtime spec.
+* In this generation, docker engine was revamped from monolith to multi component architecture and the images and containers were according to OCI (open container initiative) image spec and runtime spec
 * In the latest architecture
-* docker daemon exposes api’s to listen requests from docker client.
+* docker daemon exposes api’s to listen requests from docker client
 * Passes the requests to containerd. This manages the lifecylcle of container
 * containerd forks a runc process which creates container. once the container is created the parent of the container will be docker shim
 
@@ -332,13 +332,13 @@ _**Generation 3:**_
 * What happens
     * docker client will forward the request to docker daemon
     * docker daemon will check if the image exists locally. if yes creates the container by using image
-    * if the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default docker registry is docker hub.
-    * Downloading image into local repo from registy is called as pull.
-    * Once the image is pulled the container is created.
+    * if the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default docker registry is docker hub
+    * Downloading image into local repo from registy is called as pull
+    * Once the image is pulled the container is created
 
 
 
-* Registry is collection of docker images hosted for reuse.
+* Registry is collection of docker images hosted for reuse
 * Docker hub 
 
     [ Refer Here : https://hub.docker.com/search?q= ]
@@ -623,4 +623,160 @@ CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
     + url
 * COPY supports only local file system
 * Let's use ADD to download springpetclinic into docker image from url `ADD https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar /spring-petclinic-2.4.2.jar`
+
+* For the changes
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/6800c2af1ee665f335cd6e250848e95a0611b976 ]
+
+* copy the springpetclinic jar file into some local path on docker host. For the changes 
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/d7e1e440f0151ef0b10a2ba01af11a8fed3ec199 ]
+
+#### What do we mean by running container in detached mode ?
+
+* Let's try to start the docker container jenkins `jenkins/jenkins`
+
+
+
+
+* docker container’s STDOUT and STDERR will be attached to your terminal and if we execute ctrl+c the container exits
+* Running container normally will take us to attached mode
+* In detached mode container executes and gives us back the access to terminal
+
+
+
+* Once we start the container in detached mode we can still view the STDOUT and STDERR by executing `docker container attach <container-name-or-id>`
+* To exit from attach mode `Ctrl+PQ`
+
+#### Docker container will be in running state as long as command in cmd is running
+
+* Consider the following _**Dockerfile**_
+```
+FROM amazoncorretto:11
+LABEL author="shaikkhajaibrahim"
+LABEL organization="qt"
+LABEL project="learning"
+# Copy from local file on Docker host into docker image
+COPY spring-petclinic-2.4.2.jar  /spring-petclinic-2.4.2.jar
+EXPOSE 8080
+CMD ["sleep", "10s"]
+```
+* We have sleep 10s i.e. this will run for 10s and finish
+* Docker container will move to exited stated once the command in CMD has finished executing
+
+
+
+#### Exercise:
+
+* Create a ubuntu vm
+* install apache2 and note the ExecStart command for apache2
+* install tomcat9 and note the ExecStart command for tomcat9
+* stop the services (systemcl stop servicename)
+* become a root user (sudo -i)
+* try executing the ExecStart command directly and see if the application is running
+
+#### .net application manual process
+
+* For manual steps
+
+    [ Refer Here : https://docs.nopcommerce.com/en/installation-and-upgrading/installing-nopcommerce/installing-on-linux.html ]
+
+* This  application requires
+    + mysql  server (lets ignore this)
+    + . dotnet runtime 7.0
+    + it runs on port 5000
+* Steps:
+    + Ensure  dotnet 7 is installed
+    + Download  application from Refer Here
+    + unzip the application into some folder
+    + create two directories bin and logs
+    + Run the application using command `dotnet --urls "http://0.0.0.0:5000" Nop.Web.dll`
+
+* We have created the following `Dockerfile`
+```
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="khaja" organization="qt" project="learning"
+ADD https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip
+WORKDIR /nop
+RUN apt update && apt install unzip -y && \
+    unzip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip && \
+    mkdir /nop/bin && mkdir /nop/logs
+EXPOSE 5000
+CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
+```
+* This is not working
+
+
+
+* Try fixing
+* Try using alpine version of dotnet 7 for the same application
+
+#### Dockerfile instructions
+
+ 1. _**WORKDIR**_ : This instruction sets the working directory 
+ 
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#workdir ]
+
+#### Fixing issue with startup of .net application
+
+* For the Dockerfile
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/14555855fddd6adb5da3d07c1833e09b5639f438 ]
+
+
+
+* The document to host the .net application on `0.0.0.0`
+
+    [ Refer here : https://andrewlock.net/5-ways-to-set-the-urls-for-an-aspnetcore-app/ ]
+
+#### Setting Environment Variables in the container
+
+* ENV instruction 
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#env ]
+
+* This instruction adds environmental variable in the container and it also allows us to change environmental variables while creating containers
+* For the changes done to include environmental varibles
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/07243fd3a974b947c407f12570a9979cbc592025 ]
+
+* docker container exec will allow us to execute commands in the container
+
+
+
+* `docker container exec -it <c-name> <shell>` will allow us to login into container
+
+
+
+* ARG instruction allows us to set the values while building the image 
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#arg ]
+
+* For the BUILD ARGS added
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/60a624985b34fe5b9a82c3fa87204738fd139cd8 ]
+
+* Build args can be set while creating images. BUILD ARG can be used by using `${ARG_NAME}`
+* We have build two images by changing the HOME_DIR and DOWNLOAD_URL Build args
+```
+docker image build --build-arg DOWNLOAD_URL=nopCommerce_4.60.2_NoSource_linux_x64.zip -t nop:1.0.2 .
+docker image build --build-arg HOME_DIR=/publish -t nop:1.0.0 . 
+```
+* USER: 
+
+    [ Refer Here : https://docs.docker.com/reference/dockerfile/#user ]
+
+* For the changes done to add a non root user to run the nop commerce application
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/9e69fbecc61c60df83697c69d03867e4679a976d ]
+
+
+
+#### Exercise:
+
+* Gameof life application:
+    + This requires java 8
+    + this requires tomcat 8 or 9
+    + copy the gameoflife.war application into webapps folder of tomcat Refer Here
+    + This runs on port 8080
 
