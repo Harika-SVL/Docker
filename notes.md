@@ -940,3 +940,5 @@ Select * from Persons;
     + Explicity created (docker volume create myvol)
     + automatically created as part of container creation
  3. Ensure we have knowledge on necessary folders where the data is stored and use volumes for it
+
+ 
