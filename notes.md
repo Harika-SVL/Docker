@@ -941,4 +941,281 @@ Select * from Persons;
     + automatically created as part of container creation
  3. Ensure we have knowledge on necessary folders where the data is stored and use volumes for it
 
- 
+ ### Persisting Data using Volumes
+
+ * Let's create an explicit volume for mysqldb
+* Let's use volume type to mount the mysqldb
+* Let's mount a volume using -v, for official docs
+
+    [ Refer Here : https://docs.docker.com/storage/volumes/#start-a-container-with-a-volume ]
+* Create a mysql container
+```
+ docker container run -d --name mysqldb -v mysqldb:/var/lib/mysql -P -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_DATABASE=employees -e MYSQL_USER=qtdevops -e MYSQL_PASSWORD=rootroot mysql
+```
+
+
+* Let's create some data
+
+
+
+* now delete the container
+* Now create a new container using mount
+```
+ docker container run -d --name mysqldb --mount "source=mysqldb,target=/var/lib/mysql,type=volume" -P -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_DATABASE=employees -e MYSQL_USER=qtdevops -e MYSQL_PASSWORD=rootroot mysql
+ ```
+
+ * As we can see the data is persisted and is attached to new container
+    + Let's use bindmount to mount /tmp on docker host to the container /tmp
+```
+docker container run -d --name exp1 -v /tmp:/tmp ubuntu:22.04 sleep 1d
+
+docker container run -d --name exp1 --mount "source=/tmp,target=/tmp,type=bind" ubuntu:22.04 sleep 1d
+```
+* Login into container and create some data
+
+
+
+* check the content in /tmp of docker host
+
+
+
+### Creating volume as part of Dockerfile
+
+* Game-of-life
+* For the changeset with volume instruction for gameoflife container
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/f58812733781b7ebed7b2a8d0b0584fe0338c4e6 ]
+
+
+
+
+#### Shell file to clean everything
+
+* Create a shell file with following content
+```
+#!/bin/bash
+docker container rm -f $(docker container ls -a -q)
+docker volume prune
+docker image rm -f $(docker image ls -q)
+```
+#### Entrypoint and CMD
+
+* Let's create two docker images
+* First
+```
+FROM alpine
+CMD ["sleep", "1d"]
+```
+* Create a container with `docker container run first ping -c 4 google.com`
+
+
+
+* Second
+```
+FROM alpine
+ENTRYPOINT ["sleep"]
+CMD ["1d"]
+```
+
+
+#### Experiment
+
+* Create a alpine container with the following names
+```
+docker container run -d --name C1 alpine sleep 1d
+docker container run -d --name C2 alpine sleep 1d
+```
+* Now run in C1 `ping C2` (`docker container exec C1 ping C2`)
+* Findout ip addresses of C1 container and C2 container by executing
+```
+docker container inspect C1
+docker container inspect C2
+```
+* Now login into C1 and ping C2 by using its ipaddress
+* Observation Results
+    + ping by name is not working
+    + ping by ip is working
+
+
+
+* Create an ubunutu linux vm
+* install net-tools
+```
+sudo apt update && sudo apt install net-tools -y
+ifconfig
+```
+
+
+* Now install docker and check network interfaces again `ifconfig`
+
+
+
+* A docker0 network interface is added
+
+### Docker Networks
+
+* For the article on docker networking
+
+    [ Refer Here : https://directdevops.blog/2019/10/05/docker-networking-series-i/ ]
+
+* Docker has multiple network driver implementations
+    + bridge
+    + host
+    + macvlan
+    + overlay
+* _**Bridge**_:
+    + Default bridge will not have dns enabled (this is why in the above experiment C1 was not able to ping C2 by name)
+* Create a container C1 in default network `docker container run -d --name C1 alpine sleep 1d`
+* inspect default bridge network `docker network inspect bridge`
+
+
+
+* Let's create a new bridge network
+
+
+
+* Now create two contianers C2 and C3 in my_bridge network
+
+
+
+* Inspect my_bridge network
+
+
+
+* Let's try ping from c2 to c3 by name
+
+
+
+* Let's create a mysql container in my_bridge network
+```
+ docker container run -d --name mysqldb -v mysqldb:/var/lib/mysql -P -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_DATABASE=employees -e MYSQL_USER=qtdevops -e MYSQL_PASSWORD=rootroot --network my_bridge mysql
+ ```
+* Let's run _**phpmyadmin**_
+```
+docker container run --name phpmyadmin --network my_bridge -d -e PMA_HOST=mysqldb -P phpmyadmin
+```
+
+
+
+* Connect container C1 to my_bridge network
+```
+docker container exec C1 ip addr
+docker network connect my_bridge C1
+docker container exec C1 ip addr
+docker network disconnect bridge C1
+docker container exec C1 ip addr
+```
+
+### Multi Stage Docker build
+
+* Multi staged build is used to build the code and copy necessary files into the final stage which will be your image
+
+
+
+* For official docs
+
+    [  Refer Here : https://docs.docker.com/build/building/multi-stage/ ]
+
+#### Scenario – 1: Java Spring petclinic
+
+* To build this application we need
+    + jdk17
+    + maven
+    + git
+* Manual steps:
+```
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic 
+mvn package
+# a file gets created in target/spring-petclinic-*.jar
+```
+* To run this application we need jdk 17
+* For the changes done to create spring petclinic as multistage build
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/968357bc0da234840996e75b3394811715bc35a9 ]
+
+#### Scenario -2 Game of life
+
+* code 
+
+    [ Refer Here : https://github.com/wakaleo/game-of-life ]
+* _**Tools**_ :
+    + jdk 8
+    + git
+    + maven
+* For the solution
+
+    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/b16d521e8a8d35471ffa918a7fcd6951f4d7fecd ]
+
+### Pushing images to Registries
+
+1. _**Public Registry : Docker Hub**_
+
+    [ Refer Here : https://hub.docker.com/ ]
+
+* Create a public Repository
+
+
+
+* Repository will be in the form of `<username>/<repo-name>:<tag>`
+
+
+
+* After building the image tag the image to new naming format
+```
+docker image tag spc:3.0.0 shaikhajaibrahim/qtspringpetclinic:3.0.0
+```
+
+
+* if this image has to be default also tag with latest (optional)
+```
+docker image tag spc:3.0.0 shaikhajaibrahim/qtspringpetclinic:latest
+```
+
+
+* login into docker hub from cli
+```
+docker login
+```
+
+
+* lets push the images
+
+
+
+
+
+2. _**Private Registries**_
+
+* There are many applciations for hosting private registries
+    + _**AWS : ECR**_ (Elastic container registry)
+    + _**Azure : ACR**_ ( Azure Container Registry)
+    + _**Jfrog**_
+
+### AWS ECR
+
+* Create an ECR repository
+
+
+
+
+
+
+* View push commands
+
+
+
+* Install and configure aws cli
+
+    [ Refer here : https://sst.dev/chapters/create-an-iam-user.html ]
+
+* Follow as shown inclass
+
+
+
+### Azure ACR
+
+* For detailed info
+
+    [ Refer here : https://learn.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-acr ]
+
