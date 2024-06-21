@@ -1219,3 +1219,88 @@ docker login
 
     [ Refer here : https://learn.microsoft.com/en-us/azure/container-instances/container-instances-tutorial-prepare-acr ]
 
+### Understanding Multi-Host Networking
+
+* Multi-host networking is created as part of docker orchestration called as _**SWARM**_
+* For multi host networking
+
+    [ Refer Here : https://directdevops.blog/2019/10/07/docker-networking-series-ii-overlay-networks/ ]
+* For swarm
+
+    [ Refer Here : https://directdevops.blog/2019/10/07/docker-swarm-mode/ ]
+
+* According to what we have learnt so far. Communication between containers in same host is possible using bridge or macvlan etc. but communication between two containers running on two different hosts is not possible
+
+
+
+* Docker has a netwok driver called as overlay network
+* Using vxlan, overlay networks use underlay to create a virtual network which is logical and appears as if the containers across hosts are connected to the same network
+
+
+
+* To create multi host network, we need to create docker swarm cluster.
+
+* Swarm cluster provides native docker container orchestration.
+* Some of the activities the cluster performs
+    + Maintains the desired state.
+    + Performs scaling
+    + chooses the master node (manager)
+    + ability to add docker hosts to the cluster
+* refer to classroom video for some executions on swarm
+
+#### Exercise
+
+* To execute the commands and understand
+
+    [ Refer here : https://directdevops.blog/2019/10/07/docker-logging-docker-memory-cpu-restrictions/ ]
+
+* For understanding yaml and json
+
+    [ Refer here : https://www.youtube.com/watch?v=ggOmHlnhPaM&list=PLuVH8Jaq3mLud3sVDvJ-gJ__0zd15wGDd&index=15 ]
+
+#### Sample application
+
+* Python based application :
+    + Web application
+    + Database
+* Code: 
+
+    [ Refer Here : https://github.com/DevProjectsForDevOps/StudentCoursesRestAPI ]
+
+* This application has a python web frontend.
+* Create a image by following instructions 
+
+    [ Refer Here : https://directdevops.blog/2019/11/02/deploying-the-docker-application-and-mysql-with-volume-support-into-kubernetes-from-code-to-docker-registries-like-acr-ecr-and-then-to-eks-aks/#google_vignette ]
+
+* Create a mysql container according to docs
+* get the mysql ip address and pass it as environment variable to the python web application
+* What is that you need to do
+    + Create a bridge network
+    + Create a volume and attach it to mysql container
+    + Resolve the mysql container by its name
+* To do this
+```
+git clone https://github.com/DevProjectsForDevOps/StudentCoursesRestAPI.git
+cd StudentCoursesRestAPI
+docker image build -t scr:latest
+docker network create -d bridge scr_bridge
+docker volume create scr_db
+docker container run -d --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=directdevops -e MYSQL_PASSWORD=directdevops --network scr_bridge -v scr_db:/var/lib/mysql mysql:5.6
+docker container run -d --name mypythonapp -e MYSQL_SERVER=mysql --network scr_bridge -P scr:latest
+```
+
+#### YAML
+
+* This is data representation format,which uses name/value pairs
+* The basic format is `<name>:<value>`
+```
+topic:Docker
+```
+* Types of data :
+    + Simple/Scalar
+        * Text
+        * number
+        * boolean
+    + Complex
+        * list/array
+        * 
