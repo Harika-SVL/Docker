@@ -1303,4 +1303,195 @@ topic:Docker
         * boolean
     + Complex
         * list/array
-        * 
+        * map/dictionary/object
+* Extension of YAML files is .yaml or .yml. YAML is a text file
+* Simple yaml
+```
+url: directdevops.blog
+author: khaja
+isDailyUpdated: true
+isLoginRequired: false
+articlecount: 1000
+```
+* List example
+```
+Colors:
+  - Black
+  - White
+Movies:
+  - Avengers
+  - Batman Begins
+```
+* Map/Dictionary/Object
+```
+Address:
+  flatno: 407
+  building: Mythrivanam
+  area: Ameerpet
+  city: Hyderabad
+```
+* yaml about Quality Thought
+```
+name: QualityThought
+url: https://qualitythought.in
+courses:
+  - name: Azure
+    faculty: khaja
+    duration: 90
+  - name: AWS
+    faculty: khaja
+    duration: 90
+  - name: DevOps
+    faculty: khaja
+    duration: 110
+  - name: Manual Testing
+    faculty: Ramana
+    duration: 60
+Branches:
+  headoffice:
+    flatno: 302
+    building: nilgiri
+    city: hyderabad
+  devops:
+    flatno: 407
+    building: mythrivanam
+    city: hyderabad
+```
+* Try writing about yourself in a yaml according to following structure
+```
+#qualification
+yearofpassing: <number>
+university: <text>
+grade: text (A+|A|B|C)
+----
+# education
+<name>: <qualification>
+
+----
+name: <text>
+mobile: <text>
+email: <text>
+education: list(<education>)
+```
+* Example 1 (Postgraduate)
+```
+name: vishnu
+mobile: '999999999'
+email: vishnu@gmail.com
+education:
+  - mtech:
+      yearofpassing: 2017
+      university: jnu
+      grade: A
+  - btech:
+      yearofpassing: 2015
+      university: jntu
+      grade: A+
+```
+* Example (graduate – BSc)
+```
+name: Swathi
+mobile: '88888888'
+email: swathi@outlook.com
+education:
+  - BSc:
+      yearofpassing: 2020
+      university: osmania
+      grade: A+
+```
+* YAML will be used to define kuberentes manifests and docker compose files
+
+### Docker compose
+
+* This was external tool, but now it is integrated as docker subcommand `docker compose`
+* Compose allows use to specify the yaml file which helps in creating the below by specifying in a yaml file
+    + networks
+    + volumes
+    + containers
+* docker compose file will have the name of docker-compose.yml
+* sample
+```
+version: '3.9'
+services:
+  web:
+    image: nginx:latest
+    networks:
+      - hello-net
+    volumes:
+      - type: volume
+        source: my-vol
+        target: /tools
+networks:
+  hello-net:
+    driver: bridge
+volumes:
+  my-vol:
+```
+* to start all the containers create a folder copy the docker-compose.yaml and execute `docker compose up -d` and to remove every thing `docker compose down`
+
+
+
+* For the compose file with instructions to run student course register which we have executed manually yesterday
+
+    [ Refer Here : https://github.com/DevProjectsForDevOps/StudentCoursesRestAPI/blob/master/docker-compose.yaml ]
+
+#### Activity
+
+* Containerize nop commerce
+
+
+
+* Run these using commands
+* create a docker compose file
+* let's create nop-net bridge network
+```
+docker network create --driver bridge nop-net
+```
+* Let's create a nop-db volume
+```
+docker volume create nop-db
+```
+* Let's start by creating mysql container
+```
+docker container run --name mysql --network nop-net -d \
+    -e MYSQL_ROOT_PASSWORD=rootroot \
+    -e MYSQL_USER=nop \
+    -e MYSQL_PASSWORD=rootroot \
+    -v nop-db:/var/lib/mysql \
+    mysql:8
+```
+* Now build the nop image using Dockerfile
+```
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="khaja" organization="qt" project="learning"
+ARG user=nopcommerce
+ARG group=nopcommerce
+ARG uid=1000
+ARG gid=1000
+ARG DOWNLOAD_URL=https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip
+ARG HOME_DIR=/nop
+RUN apt update && apt install unzip -y
+# Create user nopcommerce
+RUN groupadd -g ${gid} ${group} \
+    && useradd -d "$HOME_DIR" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+USER ${user}
+WORKDIR ${HOME_DIR}
+ADD --chown=${user}:${group} ${DOWNLOAD_URL} ${HOME_DIR}/nopCommerce_4.60.2_NoSource_linux_x64.zip
+RUN unzip ${HOME_DIR}/nopCommerce_4.60.2_NoSource_linux_x64.zip && \
+    mkdir ${HOME_DIR}/bin && mkdir ${HOME_DIR}/logs
+EXPOSE 5000
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+CMD [ "dotnet", "Nop.Web.dll"]
+```
+* Now run the nop container
+```
+docker container run --name nop --network nop-net \
+    -P -d nop:4.60.2
+```
+* In the install page, pass connection string
+```
+server=mysql;uid=root;pwd=rootroot;database=nop
+```
+* Doing the same as above using compose file, for the changes
+
+    [  Refer Here : https://github.com/asquarezone/DockerZone/commit/4b4427993cb3088e394f85a59acb2a52bc06c4c9 ]
