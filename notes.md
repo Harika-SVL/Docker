@@ -295,7 +295,7 @@ docker container run -d -p 8083:8080 spc:1.0
 
     [ Refre here : https://directdevops.blog/2019/01/31/docker-internals/ ]
 
-
+![alt text](shots/16.PNG)
 
 ### Docker Architecture
 
@@ -303,7 +303,7 @@ _**Generation 1:**_
 
 * This was first gen, Where docker daemon used lxc (a linux kernel feature) to create containers
 
-
+![alt text](shots/17.PNG)
 
 _**Generation2:**_
 
@@ -311,7 +311,7 @@ _**Generation2:**_
 * So docker has created its own component called libcontainer (libc) to create containers
 * Docker wanted containers to be multi os and lxc was definetly not the way forward
 
-
+![alt text](shots/18.PNG)
 
 * Adoption of docker was drastically increased as it was stable
 
@@ -323,7 +323,7 @@ _**Generation 3:**_
 * Passes the requests to containerd. This manages the lifecylcle of container
 * containerd forks a runc process which creates container. once the container is created the parent of the container will be docker shim
 
-
+![alt text](shots/19.PNG)
 
 #### Creating our first docker container
 
@@ -338,7 +338,7 @@ _**Generation 3:**_
     * Downloading image into local repo from registy is called as pull
     * Once the image is pulled the container is created
 
-
+![alt text](shots/20.PNG)
 
 * Registry is collection of docker images hosted for reuse
 * Docker hub 
