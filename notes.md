@@ -195,6 +195,7 @@ docker info
  * Applications bring revenue to enterprises and to run applications we need servers, OS, etc
 
 #### Let's create a linux server and install tomcat in it
+
 * Create a linux server ( AWS / Azure / GCP ) 
 
 ![alt text](shots/14.PNG)
@@ -211,6 +212,7 @@ sudo apt install net-tools -y
 if config
 sudo apt install openjdk-11-jdk -y
 java -version
+sudo apt-cache search tomcat
 sudo apt install tomcat9 -y
 sudo systemctl status tomcat9
 ```
