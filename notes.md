@@ -226,7 +226,7 @@ sudo systemctl status tomcat9
 
 #### Let me take a application
 
-* This is spring pet clinic application
+* This is spring petclinic application
 * Let's try to run this application on linux ( ubuntu )
 
     [ Refer Here : https://github.com/spring-projects/spring-petclinic ]
@@ -261,7 +261,7 @@ cd spring-petclinic/
 * _**Dockerfile**_ for spring pet clinic
 ```
 FROM amazoncorretto:17-alpine-jdk
-LABEL author=Harikag
+LABEL author=Harika
 ADD target/spring-petclinic-3.0.0-SNAPSHOT.jar /springpetclinic.jar
 EXPOSE 8080
 CMD ["java", "-jar", "/springpetclinic.jar"]
@@ -271,17 +271,17 @@ CMD ["java", "-jar", "/springpetclinic.jar"]
 vi Dockerfile
 docker image build -t spc:1.0 .
 ```
-* to create container at the original port `-P`
+* To create container at the original port `-P`
 ```
 docker container run -d -P spc:1.0
 ```
-* to create container at the different ports `-p` ( remember to allow open the required ports )
+* To create container at the different ports `-p` ( remember to allow open the required ports )
 ```
 docker container run -d -p 8081:8080 spc:1.0
 docker container run -d -p 8082:8080 spc:1.0
 docker container run -d -p 8083:8080 spc:1.0
 ```
-* expose over the browser with the desired port
+* Expose over the browser with the desired port
 
 #### How Isolations are created ? ( OR ) How Containers Work ?
 
