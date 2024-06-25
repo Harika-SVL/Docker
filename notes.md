@@ -282,7 +282,7 @@ docker container run -d -p 8082:8080 spc:1.0
 docker container run -d -p 8083:8080 spc:1.0
 ```
 * Expose over the browser with the desired port
-
+ 
 #### How Isolations are created ? ( OR ) How Containers Work ?
 
 * Each container is getting a
