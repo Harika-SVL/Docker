@@ -291,24 +291,35 @@ docker container run -d -p 8083:8080 spc:1.0
     * network (nic)
     * cpu/memory
     * users
+
+![alt text](shots/16.PNG)
+
 * Docker Internals
 
     [ Refre here : https://directdevops.blog/2019/01/31/docker-internals/ ]
 
-![alt text](shots/16.PNG)
+    + _**Container**_ : Isolation with some resource limits
+    + Isolations are created using Linux kernel feature called _**Namespaces**_
+    + The resource limits are applied by kernel feature called _**Cgroups / Control groups**_
+
+    ![alt text](shots/21.PNG)
+
+    + Docker engine makes it easy to create isolated areas and resource limits
+
+    ![alt text](shots/22.PNG)
 
 ### Docker Architecture
 
-_**Generation 1:**_
+#### _**Generation 1:**_
 
 * This was first gen, Where docker daemon used lxc (a linux kernel feature) to create containers
 
 ![alt text](shots/17.PNG)
 
-_**Generation2:**_
+#### _**Generation 2:**_
 
-* Since docker was relying on lxc which was kernel feature, updates to kernel frequently used to break containers created by docker
-* So docker has created its own component called libcontainer (libc) to create containers
+* Since docker was relying on lxc which was a kernel feature, updates to kernel frequently which used to break containers created by docker
+* So docker has created it's own component called #### _**libcontainer (libc)**_ to create containers
 * Docker wanted containers to be multi os and lxc was definetly not the way forward
 
 ![alt text](shots/18.PNG)
