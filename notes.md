@@ -310,13 +310,13 @@ docker container run -d -p 8083:8080 spc:1.0
 
 ### Docker Architecture
 
-#### _**Generation 1:**_
+#### _**Generation 1 :**_
 
 * This was first gen, Where docker daemon used lxc (a linux kernel feature) to create containers
 
 ![alt text](shots/17.PNG)
 
-#### _**Generation 2:**_
+#### _**Generation 2 :**_
 
 * Since docker was relying on lxc which was a kernel feature, updates to kernel frequently which used to break containers created by docker
 * So docker has created it's own component called #### _**libcontainer (libc)**_ to create containers
@@ -326,19 +326,19 @@ docker container run -d -p 8083:8080 spc:1.0
 
 * Adoption of docker was drastically increased as it was stable
 
-_**Generation 3:**_
+_**Generation 3 :**_
 
-* In this generation, docker engine was revamped from monolith to multi component architecture and the images and containers were according to OCI (open container initiative) image spec and runtime spec
+* In this generation, docker engine was revamped from monolith to multi component architecture and the images and containers were according to OCI (open container initiative), image spec and runtime spec
 * In the latest architecture
-* docker daemon exposes api’s to listen requests from docker client
-* Passes the requests to containerd. This manages the lifecylcle of container
-* containerd forks a runc process which creates container. once the container is created the parent of the container will be docker shim
+* `Docker daemon` exposes api’s to listen requests from `Docker client`
+* Passes the requests to `containerd`. This manages the lifecylcle of container
+* containerd forks a _**runc process**_ which creates container. once the container is created the parent of the container will be `Docker shim`
 
 ![alt text](shots/19.PNG)
 
 #### Creating our first docker container
 
- _**docker container creation:**_
+ _**Docker container creation :**_
 
 * To create container we need some image in this case lets take `hello-world`
 * The command `docker container run hello-world` executed
