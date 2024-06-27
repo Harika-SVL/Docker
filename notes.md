@@ -345,7 +345,7 @@ _**Generation 3 :**_
 * What happens
     * `Docker Client` will forward the request to Docker daemon
     * `Docker Daemon` will check if the image exists locally. If yes it creates the container by using the image
-    * If the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default _**Docker registry**_ is `Docker Hub`
+    * If the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default _**Docker Registry**_ is `Docker Hub`
     * Downloading image into local repo from registy is called as `PULL`
     * Once the image is pulled the container is created
 
@@ -381,7 +381,7 @@ _**Generation 3 :**_
 
 #### Pull the images from docker hub
 
-* image naming convention
+* Image Naming Convention
 ```
 [username]/[repository]:[<tag>]
 shaikkhajaibrahim/myspc:1.0.1
@@ -404,14 +404,14 @@ alpine
 shaikkhajaibrahim/myspc
 ```
 
-* Lets pull the image nginx with tag 1.23
+* Let's pull the image nginx with tag 1.23 `nginx:1.23`
 ```
 docker image pull nginx:1.23
 docker image ls
 ```
 
 
-* Let's pull the jenkins image with latest version
+* Let's pull the jenkins image with latest version `jenkins:latest`
 
 
 
@@ -435,8 +435,8 @@ docker image ls
 
 
 
-* _**note:**_ i will be using -d for some time and we will discuss importance of this in next session
-* every container gets an id and a name. name can be passed while creating container, if not docker will give random name
+* _**NOTE :**_ I will be using `-d` for some time and we will discuss importance of this in next session
+* every container gets an id and a name. Name can be passed while creating container, if not docker will give random name
 
 
 
@@ -454,7 +454,7 @@ docker image ls
 
 
 
-* _**Exercise:**_ Start and stop containers
+* _**Exercise :**_ Start and stop containers
 
 
 ### Docker container lifecycle
@@ -471,7 +471,7 @@ docker image ls
 #### Accessing the applications inside docker containers
 
 * From now the machine where we have installed docker will referred as `host` and the docker container will be referred as `container`
-* We have access to host network & as of now containers are created in private container network, so to access applications inside containers we use `port-forwording`
+* We have access to host network & as of now containers are created in private container network, so to access applications inside containers we use `Port-Forwording`
 
 
 
@@ -493,23 +493,23 @@ docker image ls
 #### Exercise
 
 1. Install docker on a linux vm
-2. Run 1 httpd containers (apache container) which runs on 80 port
-3. try accessing any application
-4. stop the containers
-5. try accessing
-6. start the continers and access this should work
-7. pause the containers, access the application
-8. unpause the containers, access the application
-9. delete the container
+2. Run one httpd container (apache container) which runs on 80 port
+3. Try accessing any application
+4. Stop the containers
+5. Try accessing
+6. Start the continers and access, this should work
+7. Pause the containers, access the application
+8. Unpause the containers, access the application
+9. Delete the container
 
-#### Containerizing spring petclinic
+#### Containerizing Spring petclinic
 
-* I have spring petclinic version 2.4.2 which requires java 11 and runs on port 8080
+* I have spring petclinic version 2.4.2 which requires java-11 and runs on port 8080
 * To start the application `java -jar spring-petclinic-2.4.2.jar`
-* What is required:
-    + jdk 11
+* What is required :
+    + jdk-11
     + jar file
-* How to access the application
+* How to access the application ?
     + http over port 8080
 * Let's start the amazoncorretoo based container with port 8080 exposed 
 
@@ -520,7 +520,7 @@ docker container run -it -p 30000:8080 amazoncorretto:11 /bin/bash
 ```
 
 
-* now lets download the spring petclinic 
+* Now let's download the Spring petclinic 
 
 [ Refer Here : ]
 
@@ -530,11 +530,11 @@ docker container run -it -p 30000:8080 amazoncorretto:11 /bin/bash
 
 
 
-*  Now to create a image from a running container, lets login into linux vm, so let's use `docker container commit`
+*  Now to create a image from a running container, let's login into linux vm, so let's use `docker container commit`
 
 
 
-* remove all the containers and run the myspc image based container
+* Remove all the containers and run the `myspc` image based container
 ```
 docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-petclinic-2.4.2.jar
 ```
@@ -547,7 +547,10 @@ docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-
 
 
 
-* Dockerfile is a text file with instructions Refer Here
+* Dockerfile is a text file with instructions 
+
+    [ Refer Here :  ]
+
 * The basic syntax `INSTRUCTION arguments`
 * In Docker we have concept of base image i.e. to run your application using some existing image
 * We can use a base image called as scratch which has nothing in it
@@ -555,11 +558,11 @@ docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-
 
 #### Basic instructions to write a Dockerfile
 
-* _**FROM**_ : use tag all the time (donot use latest)
+ 1. _**FROM**_ : use tag all the time (donot use latest)
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#from ]
 
-* _**RUN**_ : The commands to be executed while building the image to install/configure your appliation 
+ 2. _**RUN**_ : The commands to be executed while building the image to install/configure your appliation 
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#run ]
 
