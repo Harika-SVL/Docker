@@ -343,16 +343,16 @@ _**Generation 3 :**_
 * To create container we need some image in this case let's take `hello-world`
 * The command `docker container run hello-world` executed
 * What happens
-    * `Docker client` will forward the request to Docker daemon
-    * `Docker daemon` will check if the image exists locally. If yes it creates the container by using the image
-    * If the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default _**Docker registry**_ is `Docker hub`
-    * Downloading image into local repo from registy is called as `pull`
+    * `Docker Client` will forward the request to Docker daemon
+    * `Docker Daemon` will check if the image exists locally. If yes it creates the container by using the image
+    * If the image doesnot exist, then docker daemon tries to download the image from docker registry connected. The default _**Docker registry**_ is `Docker Hub`
+    * Downloading image into local repo from registy is called as `PULL`
     * Once the image is pulled the container is created
 
 ![alt text](shots/20.PNG)
 
 * Registry is a collection of docker images hosted for reuse
-* _**Docker hub**_ 
+* _**Docker Hub**_ 
 
     [ Refer Here : https://hub.docker.com/search?q= ]
 
