@@ -1189,23 +1189,23 @@ mvn package
 
 * After building the image tag the image to new naming format
 ```
-docker image tag spc:3.0.0 shaikhajaibrahim/qtspringpetclinic:3.0.0
+docker image tag spc:3.0.0 harikasvl/spc:3.0.0
 ```
 
 
-* if this image has to be default also tag with latest (optional)
+* If this image has to be default , also tag with latest (optional)
 ```
-docker image tag spc:3.0.0 shaikhajaibrahim/qtspringpetclinic:latest
+docker image tag spc:3.0.0 harikasvl/spc:latest 
 ```
 
 
-* login into docker hub from cli
+* Login into docker hub from cli
 ```
 docker login
 ```
 
 
-* lets push the images
+* Let's push the images
 
 
 
@@ -1235,8 +1235,6 @@ docker login
 
     [ Refer here : https://sst.dev/chapters/create-an-iam-user.html ]
 
-* Follow as shown inclass
-
 
 
 ### Azure ACR
@@ -1247,42 +1245,40 @@ docker login
 
 ### Understanding Multi-Host Networking
 
-* Multi-host networking is created as part of docker orchestration called as _**SWARM**_
+* Multi-host networking is created as part of `Docker Orchestration` called as _**SWARM**_
 * For multi host networking
 
     [ Refer Here : https://directdevops.blog/2019/10/07/docker-networking-series-ii-overlay-networks/ ]
+
 * For swarm
 
     [ Refer Here : https://directdevops.blog/2019/10/07/docker-swarm-mode/ ]
 
-* According to what we have learnt so far. Communication between containers in same host is possible using bridge or macvlan etc. but communication between two containers running on two different hosts is not possible
+* According to what we have learnt so far , 
+    + Communication between containers in same host is possible using bridge or macvlan etc 
+    + communication between two containers running on two different hosts is not possible
 
 
 
-* Docker has a netwok driver called as overlay network
-* Using vxlan, overlay networks use underlay to create a virtual network which is logical and appears as if the containers across hosts are connected to the same network
+* Docker has a netwok driver called as `Overlay Network`
+* Using vxlan , overlay networks use underlay to create a virtual network which is logical and appears as if the containers across hosts are connected to the same network
 
 
 
-* To create multi host network, we need to create docker swarm cluster.
+* To create multi host network , we need to create docker swarm cluster
 
-* Swarm cluster provides native docker container orchestration.
-* Some of the activities the cluster performs
-    + Maintains the desired state.
+* Swarm cluster provides native docker container orchestration
+* Some of the activities the cluster performs :
+    + Maintains the desired state
     + Performs scaling
-    + chooses the master node (manager)
-    + ability to add docker hosts to the cluster
-* refer to classroom video for some executions on swarm
+    + Chooses the _**master node (manager)**_
+    + Ability to add docker hosts to the cluster
 
 #### Exercise
 
 * To execute the commands and understand
 
     [ Refer here : https://directdevops.blog/2019/10/07/docker-logging-docker-memory-cpu-restrictions/ ]
-
-* For understanding yaml and json
-
-    [ Refer here : https://www.youtube.com/watch?v=ggOmHlnhPaM&list=PLuVH8Jaq3mLud3sVDvJ-gJ__0zd15wGDd&index=15 ]
 
 #### Sample application
 
