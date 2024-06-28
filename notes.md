@@ -1092,7 +1092,7 @@ ifconfig
 * _**Bridge**_:
     + Default bridge will not have dns enabled (this is why in the above experiment C1 was not able to ping C2 by name)
 * Create a container C1 in default network `docker container run -d --name C1 alpine sleep 1d`
-* inspect default bridge network `docker network inspect bridge`
+* Inspect default bridge network `docker network inspect bridge`
 
 
 
@@ -1108,7 +1108,7 @@ ifconfig
 
 
 
-* Let's try ping from c2 to c3 by name
+* Let's try ping from C2 to C3 by name
 
 
 
