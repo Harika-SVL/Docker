@@ -1293,22 +1293,22 @@ docker login
 
     [ Refer Here : https://github.com/DevProjectsForDevOps/StudentCoursesRestAPI ]
 
-* This application has a python web frontend.
+* This application has a python web frontend
 * Create a image by following instructions 
 
     [ Refer Here : https://directdevops.blog/2019/11/02/deploying-the-docker-application-and-mysql-with-volume-support-into-kubernetes-from-code-to-docker-registries-like-acr-ecr-and-then-to-eks-aks/#google_vignette ]
 
-* Create a mysql container according to docs
-* get the mysql ip address and pass it as environment variable to the python web application
-* What is that you need to do
+* Create a mysql container according to doc's
+* Get the mysql ip address and pass it as environment variable to the python web application
+* What is that you need to do ?
     + Create a bridge network
     + Create a volume and attach it to mysql container
-    + Resolve the mysql container by its name
+    + Resolve the mysql container by it's name
 * To do this
 ```
 git clone https://github.com/DevProjectsForDevOps/StudentCoursesRestAPI.git
-cd StudentCoursesRestAPI
-docker image build -t scr:latest
+cd StudentCoursesRestAPI/
+docker image build -t scr:latest .
 docker network create -d bridge scr_bridge
 docker volume create scr_db
 docker container run -d --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=directdevops -e MYSQL_PASSWORD=directdevops --network scr_bridge -v scr_db:/var/lib/mysql mysql:5.6
