@@ -566,29 +566,29 @@ docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#run ]
 
-* _**CMD**_ : This command will be executed while starting the container
+ 3. _**CMD**_ : This command will be executed while starting the container
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#cmd ]
 
-* _**EXPOSE**_ : This adds ports to be exposed while starting the container 
+ 4. _**EXPOSE**_ : This adds ports to be exposed while starting the container 
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#expose ]
 
 #### Spring petclinic Dockerfile
 
-* Let's do two ways
- 1. use any image with java11 already as base image `amazoncorretto:11`
- 2. use any image with slim os as base image `alpine:3`
+* Let's do two ways :
 
-* Dockerfile- based on amazoncorreto:11 
+ 1. Use any image with java-11 already as base image `amazoncorretto:11`
+ 2. Use any image with slim os as base image `alpine:3`
+
+_** Dockerfile - based on amazoncorreto:11**_ 
 ```
 FROM amazoncorretto:11
 RUN curl https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar -o spring-petclinic-2.4.2.jar
 EXPOSE 8080
 CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
 ```
-* Let
-s build the image based on amazoncorreto
+* Let's build the image based on amazoncorreto
 
 
 
@@ -597,7 +597,7 @@ s build the image based on amazoncorreto
 
 
 
-* Approach 2: Start from some os
+* _**Dockerfile - based on  Start from some os**_
 ```
 FROM alpine:3
 RUN apk add openjdk11
@@ -677,7 +677,7 @@ COPY spring-petclinic-2.4.2.jar  /spring-petclinic-2.4.2.jar
 EXPOSE 8080
 CMD ["sleep", "10s"]
 ```
-* We have sleep 10s i.e. this will run for 10s and finish
+* We have sleep 10sec i.e. this will run for 10sec and finish
 * Docker container will move to exited stated once the command in CMD has finished executing
 
 
@@ -697,21 +697,24 @@ CMD ["sleep", "10s"]
 
     [ Refer Here : https://docs.nopcommerce.com/en/installation-and-upgrading/installing-nopcommerce/installing-on-linux.html ]
 
-* This  application requires
-    + mysql  server (lets ignore this)
+* This application requires
+    + mysql  server (let's ignore this)
     + . dotnet runtime 7.0
     + it runs on port 5000
-* Steps:
-    + Ensure  dotnet 7 is installed
-    + Download  application from Refer Here
+* Steps :
+    + Ensure  dotnet-7 is installed
+    + Download  application from 
+    
+    [ Refer Here :  ]
+
     + unzip the application into some folder
-    + create two directories bin and logs
+    + create two directories `bin` and `logs`
     + Run the application using command `dotnet --urls "http://0.0.0.0:5000" Nop.Web.dll`
 
 * We have created the following `Dockerfile`
 ```
 FROM mcr.microsoft.com/dotnet/sdk:7.0
-LABEL author="khaja" organization="qt" project="learning"
+LABEL author="Harika" organization="qt" project="learning"
 ADD https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip
 WORKDIR /nop
 RUN apt update && apt install unzip -y && \
@@ -725,7 +728,7 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
 
 
 * Try fixing
-* Try using alpine version of dotnet 7 for the same application
+* Try using alpine version of dotnet-7 for the same application
 
 #### Dockerfile instructions
 
@@ -747,7 +750,7 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
 
 #### Setting Environment Variables in the container
 
-* ENV instruction 
+* _**ENV**_ instruction 
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#env ]
 
@@ -756,7 +759,7 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
 
     [ Refer Here : https://github.com/asquarezone/DockerZone/commit/07243fd3a974b947c407f12570a9979cbc592025 ]
 
-* docker container exec will allow us to execute commands in the container
+* Docker container exec will allow us to execute commands in the container
 
 
 
@@ -764,7 +767,7 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
 
 
 
-* ARG instruction allows us to set the values while building the image 
+* _**ARG**_ instruction allows us to set the values while building the image 
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#arg ]
 
@@ -793,7 +796,10 @@ docker image build --build-arg HOME_DIR=/publish -t nop:1.0.0 .
 * Game-of-life application:
     + This requires java 8
     + this requires tomcat 8 or 9
-    + copy the gameoflife.war application into webapps folder of tomcat Refer Here
+    + copy the gameoflife.war application into webapps folder of tomcat 
+    
+    [ Refer Here :  ]
+
     + This runs on port 8080
 
 ### Image Layers
@@ -814,7 +820,7 @@ docker image inspect alpine
 * Let's create a new image based on alpine exp1
 ```
 FROM alpine
-label author=khaja
+label author=Harika
 CMD ["sleep", "1d"]
 ```
 * list images
@@ -832,7 +838,7 @@ CMD ["sleep", "1d"]
 * Let's create a new image based on alpine exp2
 ```
 FROM alpine
-label author=khaja
+label author=Harika
 ADD 1.txt /
 CMD ["sleep", "1d"]
 ```
@@ -845,7 +851,7 @@ CMD ["sleep", "1d"]
 * Let's create a new image based on alpine exp3
 ```
 FROM alpine
-label author=khaja
+label author=Harika
 RUN echo "one" > 1.txt
 RUN echo "two" > 2.txt
 RUN echo "three" > 3.txt
@@ -860,7 +866,7 @@ CMD ["sleep", "1d"]
 * Let's create a new image based on alpine exp4
 ```
 FROM alpine
-label author=khaja
+label author=Harika
 RUN echo "one" > 1.txt && \
     echo "two" > 2.txt && \
     echo "three" > 3.txt
@@ -892,13 +898,17 @@ CMD ["sleep", "1d"]
     [ Refer Here : https://directdevops.blog/2019/09/27/impact-of-image-layers-on-docker-containers-storage-drivers/#google_vignette ]
 
 ### Stateful Appplications and Stateless Applications
+
 * Stateful applications use local storage to store any state
 * Stateless applications use external systems (database, blobstorage etc) to store the state
 * We need not do anything special if your application is stateless in terms of writable layer, but if it stateful we need to preserve the state
 
 #### Solving the Problem with Writable Layers
 
-* Let's create a mysql container Refer Here
+* Let's create a mysql container 
+
+    [ Refer Here :  ]
+
 * Command
 ```
 docker container run -d --name mysqldb -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_DATABASE=employees -e MYSQL_USER=qtdevops -e MYSQL_PASSWORD=rootroot -P mysql:8
@@ -1419,12 +1429,12 @@ education:
 
 ### Docker compose
 
-* This was external tool, but now it is integrated as docker subcommand `docker compose`
-* Compose allows use to specify the yaml file which helps in creating the below by specifying in a yaml file
+* This was external tool , but now it is integrated as docker subcommand `docker compose`
+* Compose allows us to specify the yaml file which helps in creating the below , by specifying in a yaml file
     + networks
     + volumes
     + containers
-* docker compose file will have the name of docker-compose.yml
+* docker compose file will have the name as `docker-compose.yml`
 * sample
 ```
 version: '3.9'
@@ -1443,13 +1453,61 @@ networks:
 volumes:
   my-vol:
 ```
-* to start all the containers create a folder copy the docker-compose.yaml and execute `docker compose up -d` and to remove every thing `docker compose down`
+* To start all the containers create a folder copy the docker-compose.yaml and execute `docker compose up -d` and to remove every thing `docker compose down`
 
 
 
-* For the compose file with instructions to run student course register which we have executed manually yesterday
+* For the compose file with instructions to run student course register which we have executed manually 
 
-    [ Refer Here : https://github.com/DevProjectsForDevOps/StudentCoursesRestAPI/blob/master/docker-compose.yaml ]
+_**docker-compose.yaml**_
+```
+---
+version: "3.9"
+services:
+  student-srv:
+    build: 
+      context: .
+    networks:
+      - students-net
+      - students-private-net
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+    environment:
+      - MYSQL_SERVER=students-db
+    depends_on:
+      - students-db
+  students-db:
+    image: mysql:5.6
+    networks:
+      - students-private-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=directdevops
+      - MYSQL_PASSWORD=directdevops
+    volumes:
+      - type: volume
+        source: students-db
+        target: /var/lib/mysql
+
+volumes:
+  students-db:
+
+networks:
+  students-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.101.0/24
+  students-private-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.102.0/24
+```
 
 #### Activity
 
@@ -1458,8 +1516,8 @@ volumes:
 
 
 * Run these using commands
-* create a docker compose file
-* let's create nop-net bridge network
+* Create a docker compose file
+* Let's create nop-net bridge network
 ```
 docker network create --driver bridge nop-net
 ```
@@ -1479,7 +1537,7 @@ docker container run --name mysql --network nop-net -d \
 * Now build the nop image using Dockerfile
 ```
 FROM mcr.microsoft.com/dotnet/sdk:7.0
-LABEL author="khaja" organization="qt" project="learning"
+LABEL author="Harika" organization="qt" project="learning"
 ARG user=nopcommerce
 ARG group=nopcommerce
 ARG uid=1000
@@ -1510,4 +1568,35 @@ server=mysql;uid=root;pwd=rootroot;database=nop
 ```
 * Doing the same as above using compose file, for the changes
 
-    [  Refer Here : https://github.com/asquarezone/DockerZone/commit/4b4427993cb3088e394f85a59acb2a52bc06c4c9 ]
+_**docker-compose.yaml**_
+```
+---
+version: "3.9"
+services:
+  nop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - nop-net
+    ports:
+      - "35000:5000"
+    depends_on:
+      - nop-db
+
+  nop-db:
+    image: mysql:8
+    networks:
+      - nop-net
+    volumes:
+      - nop-db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootroot
+      - MYSQL_USER=nop
+      - MYSQL_PASSWORD=rootroot
+      - MYSQL_DATABASE=nop
+volumes:
+  nop-db:
+networks:
+  nop-net:
+```
