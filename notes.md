@@ -1317,24 +1317,24 @@ docker container run -d --name mypythonapp -e MYSQL_SERVER=mysql --network scr_b
 
 #### YAML
 
-* This is data representation format,which uses name/value pairs
-* The basic format is `<name>:<value>`
+* This is data representation format , which uses name / value pairs
+* The basic format is `<name>: <value>`
 ```
 topic:Docker
 ```
 * Types of data :
-    + Simple/Scalar
+    + Simple / Scalar
         * Text
         * number
         * boolean
     + Complex
-        * list/array
-        * map/dictionary/object
-* Extension of YAML files is .yaml or .yml. YAML is a text file
-* Simple yaml
+        * list / array
+        * map / dictionary / object
+* Extension of YAML files is `.yaml` or `.yml`. YAML is a text file
+* Simple yaml example
 ```
 url: directdevops.blog
-author: khaja
+author: Harika
 isDailyUpdated: true
 isLoginRequired: false
 articlecount: 1000
@@ -1348,7 +1348,7 @@ Movies:
   - Avengers
   - Batman Begins
 ```
-* Map/Dictionary/Object
+* Map / Dictionary / Object example
 ```
 Address:
   flatno: 407
@@ -1425,7 +1425,7 @@ education:
       university: osmania
       grade: A+
 ```
-* YAML will be used to define kuberentes manifests and docker compose files
+* YAML will be used to define `Kuberentes Manifests` and `Docker Compose files`
 
 ### Docker compose
 
