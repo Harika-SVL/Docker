@@ -1065,7 +1065,7 @@ docker container inspect C2
 
 
 * Create an ubunutu linux vm
-* install net-tools
+* Install net-tools
 ```
 sudo apt update && sudo apt install net-tools -y
 ifconfig
@@ -1076,7 +1076,7 @@ ifconfig
 
 
 
-* A docker0 network interface is added
+* A `docker0` network interface is added
 
 ### Docker Networks
 
