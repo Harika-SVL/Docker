@@ -1138,40 +1138,80 @@ docker container exec C1 ip addr
 
 
 
-* For official docs
+* For official doc's
 
     [  Refer Here : https://docs.docker.com/build/building/multi-stage/ ]
 
-#### Scenario – 1: Java Spring petclinic
+#### Scenario – 1 : Spring petclinic
 
-* To build this application we need
-    + jdk17
+* To build this application , we need :
+    + jdk-17
     + maven
     + git
-* Manual steps:
+* Manual steps :
 ```
-git clone https://github.com/spring-projects/spring-petclinic.git
-cd spring-petclinic 
+git clone https://github.com/Harika-SVL/Spring-petclinic.git
+cd spring-petclinic/ 
 mvn package
 # a file gets created in target/spring-petclinic-*.jar
 ```
-* To run this application we need jdk 17
+* To run this application , we need jdk-17
 * For the changes done to create spring petclinic as multistage build
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/968357bc0da234840996e75b3394811715bc35a9 ]
+_**Dockerfile - nopCommerce**_
+```
+FROM ubuntu:22.04 AS extractor
+RUN apt update && apt install unzip
+ARG DOWNLOAD_URL=https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip
+ADD ${DOWNLOAD_URL} /nopCommerce/nopCommerce_4.60.2_NoSource_linux_x64.zip
+RUN cd /nopCommerce && unzip nopCommerce_4.60.2_NoSource_linux_x64.zip && mkdir bin logs && rm nopCommerce_4.60.2_NoSource_linux_x64.zip
 
-#### Scenario -2 Game of life
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="Harika" organization="qt" project="learning"
+ARG user=nopcommerce
+ARG group=nopcommerce
+ARG uid=1000
+ARG gid=1000
+ARG DOWNLOAD_URL=https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip
+ARG HOME_DIR=/nop
+RUN apt update && apt install unzip -y
+# Create user nopcommerce
+RUN groupadd -g ${gid} ${group} \
+    && useradd -d "$HOME_DIR" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+USER ${user}
+WORKDIR ${HOME_DIR}
+COPY --from=extractor  /nopCommerce ${HOME_DIR}
+EXPOSE 5000
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+CMD [ "dotnet", "Nop.Web.dll"]
+```
+
+#### Scenario -2  : Game of life
 
 * code 
 
-    [ Refer Here : https://github.com/wakaleo/game-of-life ]
+    [ Refer Here : https://github.com/Harika-SVL/Game-of-life.git ]
 * _**Tools**_ :
-    + jdk 8
+    + jdk-8
     + git
     + maven
-* For the solution
+* For the solution  
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/b16d521e8a8d35471ffa918a7fcd6951f4d7fecd ]
+_**Dockerfile**_
+```
+FROM alpine/git AS vcs
+RUN cd / && git clone https://github.com/Harika-SVL/Game-of-life.git
+
+FROM maven:3-amazoncorretto-8 AS builder
+COPY --from=vcs /game-of-life /game-of-life
+RUN cd /game-of-life && mvn package
+
+FROM tomcat:9-jdk8
+LABEL author="Harika" organization="qt"
+COPY --from=builder /game-of-life/gameoflife-web/target/*.war /usr/local/tomcat/webapps/gameoflife.war
+EXPOSE 8080
+```
 
 ### Pushing images to Registries
 
