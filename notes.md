@@ -738,9 +738,20 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
 
 #### Fixing issue with startup of .net application
 
-* For the Dockerfile
+_**Dockerfile**_
+```
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="Harika" organization="qt" project="learning"
+ADD https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip
+WORKDIR /nop
+RUN apt update && apt install unzip -y && \
+    unzip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip && \
+    mkdir /nop/bin && mkdir /nop/logs
+EXPOSE 5000
+CMD [ "dotnet", "Nop.Web.dll","--urls", "http://0.0.0.0:5000" ]
+```
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/14555855fddd6adb5da3d07c1833e09b5639f438 ]
+  
 
 
 
@@ -755,9 +766,21 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#env ]
 
 * This instruction adds environmental variable in the container and it also allows us to change environmental variables while creating containers
-* For the changes done to include environmental varibles
+* For the changes done to include _**environmental varibles**_
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/07243fd3a974b947c407f12570a9979cbc592025 ]
+_**Dockerfile**_    
+```
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="Harika" organization="qt" project="learning"
+ADD https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip
+WORKDIR /nop
+RUN apt update && apt install unzip -y && \
+    unzip /nop/nopCommerce_4.60.2_NoSource_linux_x64.zip && \
+    mkdir /nop/bin && mkdir /nop/logs
+EXPOSE 5000
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+CMD [ "dotnet", "Nop.Web.dll"]
+```
 
 * Docker container exec will allow us to execute commands in the container
 
@@ -771,32 +794,67 @@ CMD [ "dotnet", "--urls", "http://0.0.0.0:5000", "Nop.Web.dll" ]
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#arg ]
 
-* For the BUILD ARGS added
+* For the _**BUILD ARGS**_ added
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/60a624985b34fe5b9a82c3fa87204738fd139cd8 ]
+_**Dockerfile**_
+```
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="Harika" organization="qt" project="learning"
+ARG DOWNLOAD_URL=https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip
+ARG HOME_DIR=/nop
+ADD ${DOWNLOAD_URL} ${HOME_DIR}/nopCommerce_4.60.2_NoSource_linux_x64.zip
+WORKDIR ${HOME_DIR}
+RUN apt update && apt install unzip -y && \
+    unzip ${HOME_DIR}/nopCommerce_4.60.2_NoSource_linux_x64.zip && \
+    mkdir ${HOME_DIR}/bin && mkdir ${HOME_DIR}/logs
+EXPOSE 5000
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+CMD [ "dotnet", "Nop.Web.dll"]
+```
 
 * Build args can be set while creating images. BUILD ARG can be used by using `${ARG_NAME}`
-* We have build two images by changing the HOME_DIR and DOWNLOAD_URL Build args
+* We have build two images by changing the `HOME_DIR` and `DOWNLOAD_URL` Build args
 ```
 docker image build --build-arg DOWNLOAD_URL=nopCommerce_4.60.2_NoSource_linux_x64.zip -t nop:1.0.2 .
 docker image build --build-arg HOME_DIR=/publish -t nop:1.0.0 . 
 ```
-* USER: 
+* _**USER**_ : 
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#user ]
 
 * For the changes done to add a non root user to run the nop commerce application
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/9e69fbecc61c60df83697c69d03867e4679a976d ]
+_**Dockerfile**_
+```
+FROM mcr.microsoft.com/dotnet/sdk:7.0
+LABEL author="Harika" organization="qt" project="learning"
+ARG user=nopcommerce
+ARG group=nopcommerce
+ARG uid=1000
+ARG gid=1000
+ARG DOWNLOAD_URL=https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.2/nopCommerce_4.60.2_NoSource_linux_x64.zip
+ARG HOME_DIR=/nop
+RUN apt update && apt install unzip -y
+# Create user nopcommerce
+RUN groupadd -g ${gid} ${group} \
+    && useradd -d "$HOME_DIR" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+USER ${user}
+WORKDIR ${HOME_DIR}
+ADD --chown=${user}:${group} ${DOWNLOAD_URL} ${HOME_DIR}/nopCommerce_4.60.2_NoSource_linux_x64.zip
+RUN unzip ${HOME_DIR}/nopCommerce_4.60.2_NoSource_linux_x64.zip && \
+    mkdir ${HOME_DIR}/bin && mkdir ${HOME_DIR}/logs
+EXPOSE 5000
+ENV ASPNETCORE_URLS="http://0.0.0.0:5000"
+```
 
 
 
-#### Exercise:
+#### Exercise :
 
-* Game-of-life application:
-    + This requires java 8
+* Game-of-life application :
+    + This requires java-8
     + this requires tomcat 8 or 9
-    + copy the gameoflife.war application into webapps folder of tomcat 
+    + copy the `gameoflife.war` application into `webapps` folder of tomcat 
     
     [ Refer Here :  ]
 
@@ -823,15 +881,15 @@ FROM alpine
 label author=Harika
 CMD ["sleep", "1d"]
 ```
-* list images
+* List images
 
 
 
-* inspect layers of alpine and exp1
+* Inspect layers of alpine and exp1
 
 
 
-* both have same layers
+* Both have same layers
 
 #### Experiment 2
 
@@ -842,7 +900,7 @@ label author=Harika
 ADD 1.txt /
 CMD ["sleep", "1d"]
 ```
-* let's inspect layers of exp2 and alpine
+* Inspect layers of exp2 and alpine
 
 
 
@@ -872,13 +930,13 @@ RUN echo "one" > 1.txt && \
     echo "three" > 3.txt
 CMD ["sleep", "1d"]
 ```
-* inspect results
+* Inspect results
 
 
 
 * Docker image is collection of layers and some metadata
 * Docker image gets first set of layers from base image
-* Any Additional changes w.r.t ADD/COPY creates extra layers
+* Any Additional changes w.r.to ADD / COPY creates extra layers
 * Each RUN instruction which needs some storage creates layer
 * It is recommended to use Multiple commands in RUN instruction rather than multiple RUN instructions as this leads to too many layers
 * Docker has a filesystem which is aware of layers
@@ -887,20 +945,21 @@ CMD ["sleep", "1d"]
 ### Container and layers
 
 * When a container gets created all the effective read-only image layers are mounted as disk to the container
-* Docker creates a thin read write layer for each container.
+* Docker creates a thin read-write layer for each container
 * Any changes made by container will be stored in this layer
-* Problem: when we delete container read write layer will be deleted.
-* For the article on layers
+* _**Problem**_ : When we delete container read-write layer will be deleted
+
+* For the article on Layers
 
     [ Refer Here : https://directdevops.blog/2019/09/26/docker-image-creation-and-docker-image-layers/ ]
-* For layers and storage Drivers
+
+* For Layers and Storage Drivers
 
     [ Refer Here : https://directdevops.blog/2019/09/27/impact-of-image-layers-on-docker-containers-storage-drivers/#google_vignette ]
 
 ### Stateful Appplications and Stateless Applications
 
-* Stateful applications use local storage to store any state
-* Stateless applications use external systems (database, blobstorage etc) to store the state
+* Stateful applications use local storage to store any state. Stateless applications use external systems (database, blobstorage etc) to store the state
 * We need not do anything special if your application is stateless in terms of writable layer, but if it stateful we need to preserve the state
 
 #### Solving the Problem with Writable Layers
@@ -934,14 +993,14 @@ Select * from Persons;
 
 * Now if we remove the container we loose the data
 * To fix the problem with data losses, Docker has volumes
-* Volume can exist even after docker container is deleted.
+* Volume can exist even after docker container is deleted
 * We can attach volumes to other containers as well
 * For this volume to work, we need to know the folder of which data will be preserved
-* Let explore docker volume subcommand
+* Let's explore docker volume subcommand
 
 
 
-* docker volume creates a storage according to the driver specified. The default driver is local i.e. the volume is created in the machine where docker is executing
+* Docker volume creates a storage according to the driver specified. The default driver is local i.e. the volume is created in the machine where docker is executing
 
 ### Docker Volumes
 
@@ -962,8 +1021,8 @@ Select * from Persons;
 #### KeyPoints
 
  1. Always ensure volumes are automatically created for the stateful applications as part of Dockerfile (VOLUME instruction)
- 2. Volumes are of two types
-    + Explicity created (docker volume create myvol)
+ 2. Volumes are of two types :
+    + Explicity created (docker volume create `myvol`)
     + automatically created as part of container creation
  3. Ensure we have knowledge on necessary folders where the data is stored and use volumes for it
 
@@ -971,7 +1030,7 @@ Select * from Persons;
 
  * Let's create an explicit volume for mysqldb
 * Let's use volume type to mount the mysqldb
-* Let's mount a volume using -v, for official docs
+* Let's mount a volume using `-v`, for official doc's
 
     [ Refer Here : https://docs.docker.com/storage/volumes/#start-a-container-with-a-volume ]
 * Create a mysql container
@@ -984,14 +1043,14 @@ Select * from Persons;
 
 
 
-* now delete the container
+* Now delete the container
 * Now create a new container using mount
 ```
  docker container run -d --name mysqldb --mount "source=mysqldb,target=/var/lib/mysql,type=volume" -P -e MYSQL_ROOT_PASSWORD=rootroot -e MYSQL_DATABASE=employees -e MYSQL_USER=qtdevops -e MYSQL_PASSWORD=rootroot mysql
  ```
 
  * As we can see the data is persisted and is attached to new container
-    + Let's use bindmount to mount /tmp on docker host to the container /tmp
+    + Let's use bindmount to mount `/tmp` on docker host to the container `/tmp`
 ```
 docker container run -d --name exp1 -v /tmp:/tmp ubuntu:22.04 sleep 1d
 
@@ -1001,21 +1060,40 @@ docker container run -d --name exp1 --mount "source=/tmp,target=/tmp,type=bind" 
 
 
 
-* check the content in /tmp of docker host
+* Check the content in `/tmp` of docker host
 
 
 
 ### Creating volume as part of Dockerfile
 
 * Game-of-life
-* For the changeset with volume instruction for gameoflife container
+* For the changeset with volume instruction for game-of-life container
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/f58812733781b7ebed7b2a8d0b0584fe0338c4e6 ]
+_**Dockerfile**_
+```
+FROM tomcat:9-jdk8
+LABEL author="khaja" organization="qt"
+ARG GOL_URL=https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/gameoflife.war
+ADD ${GOL_URL} /usr/local/tomcat/webapps/gameoflife.war
+VOLUME "/usr/local/tomcat"
+EXPOSE 8080
+# IGNORING CMD as i want base image's CMD
+```
+
+spc- _**Dockerfile**_
+```
+FROM amazoncorretto:11
+LABEL author="shaikkhajaibrahim"
+LABEL organization="qt"
+LABEL project="learning"
+# Copy from local file on Docker host into docker image
+COPY spring-petclinic-2.4.2.jar  /spring-petclinic-2.4.2.jar
+EXPOSE 8080
+CMD ["sleep", "10s"]
+```
 
 
-
-
-#### Shell file to clean everything
+#### Shellfile to clean everything
 
 * Create a shell file with following content
 ```
