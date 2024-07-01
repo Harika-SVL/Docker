@@ -553,7 +553,7 @@ docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-
 
 * The basic syntax `INSTRUCTION arguments`
 * In Docker we have concept of base image i.e. to run your application using some existing image
-* We can use a base image called as scratch which has nothing in it
+* We can use a base image called as `scratch` which has nothing in it
 * In majority of the cases we take what is required to run our application as base image
 
 #### Basic instructions to write a Dockerfile
@@ -581,7 +581,7 @@ docker container run -d -p 30001:8080 --name spc1 myspc:latest java -jar spring-
  1. Use any image with java-11 already as base image `amazoncorretto:11`
  2. Use any image with slim os as base image `alpine:3`
 
-_** Dockerfile - based on amazoncorreto:11**_ 
+_**Dockerfile - based on amazoncorreto:11**_ 
 ```
 FROM amazoncorretto:11
 RUN curl https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar -o spring-petclinic-2.4.2.jar
@@ -597,7 +597,7 @@ CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
 
 
 
-* _**Dockerfile - based on  Start from some os**_
+_**Dockerfile - based on  Start from some os**_
 ```
 FROM alpine:3
 RUN apk add openjdk11
@@ -625,7 +625,10 @@ CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
 
     [ Refer Here : https://docs.docker.com/reference/dockerfile/#label ]
 
-    + Refer Here for the changes done for spc image
+    + For the changes done for spc image
+
+    [ Refer here:  ]
+
     + Let's inspect the image `docker image inspect spc:1.0.0.1` and observe the labels section
 
 
@@ -633,20 +636,37 @@ CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
  2. _**ADD , COPY**_ : 
 
 * ADD instruction can add the files into docker image from local file system as well as from http(s)
-* ADD instruction can have sources
+* ADD instruction can have sources :
     + local file system
     + git repo
     + url
 * COPY supports only local file system
-* Let's use ADD to download springpetclinic into docker image from url `ADD https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar /spring-petclinic-2.4.2.jar`
+* Let's use ADD to download spring petclinic into docker image from url `ADD https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar /spring-petclinic-2.4.2.jar`
 
-* For the changes
+_**Dockerfile**_
+```
+FROM amazoncorretto:11
+LABEL author="Harika"
+LABEL organization="qt"
+LABEL project="learning"
+ADD https://referenceapplicationskhaja.s3.us-west-2.amazonaws.com/spring-petclinic-2.4.2.jar  /spring-petclinic-2.4.2.jar
+EXPOSE 8080
+CMD ["java", "-jar", "/spring-petclinic-2.4.2.jar"]
+```
 
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/6800c2af1ee665f335cd6e250848e95a0611b976 ]
+* copy the spring petclinic jar file into some local path on docker host  
 
-* copy the springpetclinic jar file into some local path on docker host. For the changes 
-
-    [ Refer Here : https://github.com/asquarezone/DockerZone/commit/d7e1e440f0151ef0b10a2ba01af11a8fed3ec199 ]
+_**Dockerfile**_
+```
+FROM amazoncorretto:11
+LABEL author="Harika"
+LABEL organization="qt"
+LABEL project="learning"
+# Copy from local file on Docker host into docker image
+COPY spring-petclinic-2.4.2.jar  /spring-petclinic-2.4.2.jar
+EXPOSE 8080
+CMD ["java", "-jar", "/spring-petclinic-2.4.2.jar"]
+```
 
 #### What do we mean by running container in detached mode ?
 
@@ -655,7 +675,7 @@ CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
 
 
 
-* docker container’s STDOUT and STDERR will be attached to your terminal and if we execute ctrl+c the container exits
+* Docker container’s `STDOUT` and `STDERR` will be attached to your terminal and if we execute `ctrl+c` the container exits
 * Running container normally will take us to attached mode
 * In detached mode container executes and gives us back the access to terminal
 
@@ -664,12 +684,12 @@ CMD ["java", "-jar", "spring-petclinic-2.4.2.jar"]
 * Once we start the container in detached mode we can still view the STDOUT and STDERR by executing `docker container attach <container-name-or-id>`
 * To exit from attach mode `Ctrl+PQ`
 
-#### Docker container will be in running state as long as command in cmd is running
+#### Docker container will be in running state as long as command in CMD is running
 
-* Consider the following _**Dockerfile**_
+ _**Dockerfile**_
 ```
 FROM amazoncorretto:11
-LABEL author="shaikkhajaibrahim"
+LABEL author="Harika"
 LABEL organization="qt"
 LABEL project="learning"
 # Copy from local file on Docker host into docker image
@@ -682,13 +702,13 @@ CMD ["sleep", "10s"]
 
 
 
-#### Exercise:
+#### Exercise :
 
 * Create a ubuntu vm
-* install apache2 and note the ExecStart command for apache2
-* install tomcat9 and note the ExecStart command for tomcat9
-* stop the services (systemcl stop servicename)
-* become a root user (sudo -i)
+* install apache2 and note the `ExecStart` command for `apache2`
+* install tomcat9 and note the `ExecStart` command for `tomcat9`
+* stop the services `systemcl stop servicename`
+* become a root user `sudo -i`
 * try executing the ExecStart command directly and see if the application is running
 
 #### .net application manual process
@@ -697,7 +717,7 @@ CMD ["sleep", "10s"]
 
     [ Refer Here : https://docs.nopcommerce.com/en/installation-and-upgrading/installing-nopcommerce/installing-on-linux.html ]
 
-* This application requires
+* This application requires :
     + mysql  server (let's ignore this)
     + . dotnet runtime 7.0
     + it runs on port 5000
