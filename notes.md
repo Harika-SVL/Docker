@@ -674,7 +674,6 @@ CMD ["java", "-jar", "/spring-petclinic-2.4.2.jar"]
 
 
 
-
 * Docker container’s `STDOUT` and `STDERR` will be attached to your terminal and if we execute `ctrl+c` the container exits
 * Running container normally will take us to attached mode
 * In detached mode container executes and gives us back the access to terminal
