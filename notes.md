@@ -17,7 +17,7 @@
  2. Deployment of new features : typically are having more downtimes
     + Zero down time deployments
     + Faster deployments
- 3. Contoso wants to run this application on any cloud or on-premises
+ 3. Contoso : wants to run this application on any cloud or on-premises
     + Portability
  4. De Composing application into smaller services according to the business needs
 
